@@ -45,8 +45,9 @@ const authenticateStudent = (req, res, next) => {
 
 const authorizeUser = ( req, res, next) => {
     const { url, method, token } = req
-    const all = ['POST', 'GET', 'PUT', 'DELETE']
     const canCreate = 'POST', canRead = 'GET', canUpdate = 'PUT', canDestroy = 'DELETE'
+    const all = [canCreate, canRead, canUpdate, canDestroy]
+    
     const roles = {
         admin: {
             models: {
@@ -75,40 +76,13 @@ const authorizeUser = ( req, res, next) => {
                 student: ['POST', 'GET', 'PUT']
             }
         }
-        // author : {
-        //     POST: ['admin', 'moderator'],
-        //     GET: ['admin', 'moderator','student'],
-        //     PUT: ['admin', 'moderator'],
-        //     DELETE: ['admin']
-        // }, 
-        // category: {
-        //     POST: ['admin', 'moderator'],
-        //     GET: ['admin', 'moderator', 'student'],
-        //     PUT: ['admin', 'moderator'],
-        //     DELETE: ['admin']
-        // },
-        // course: {
-        //     POST: ['admin'],
-        //     GET: ['admin', 'moderator', 'student'],
-        //     PUT: ['admin', 'moderator'],
-        //     DELETE: ['admin']
-        // },
-        // lecture: {
-        //     POST: ['admin'],
-        //     GET: ['admin', 'moderator', 'student'],
-        //     PUT: ['admin', 'moderator'],
-        //     DELETE: ['admin']
-        // },
-        // student: {
-        //     POST: ['admin', 'moderator', 'student'],
-        //     GET: ['admin', 'moderator', 'student'],
-        //     PUT: ['admin', 'moderator', 'student'],
-        //     DELETE: ['admin']
-        // }
+
     }
 
+    
+
     const grantAccess = (modelName) => {
-        if (roles[token[role]].models[modelName].includes(method)) {
+        if (roles[token.role].models[modelName].includes(method)) {
                 next()
             } else {
                 res.status(401).json({
