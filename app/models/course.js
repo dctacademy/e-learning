@@ -63,6 +63,35 @@ const courseSchema = new Schema({
 
 }, { timestamps: true })
 
+courseSchema.statics.findAllByRole = function(req){
+    const Course = this 
+    if(req.token.role ? 'admin' : 'moderator') {
+        return Course.find({})
+    } else {
+        return Course.find({ 'students.student' : req.token._id })
+    }
+}
+
+courseSchema.statics.findOneByRole = function(req){
+    const Course = this 
+    if(req.token.role ? 'admin' : 'moderator') {
+        return Course.findOne({ _id: req.params.id })
+    } else { 
+        return Course.findOne({ 'students.student' : req.token._id , _id: req.params.id})
+    }
+}   
+
+courseSchema.statics.findByIdAndUpdateByRole = function(req){
+    const id = req.params.id 
+    const body = req.body 
+    const Course = this 
+    if(req.token.role? 'admin' : 'moderator') { 
+        return Course.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
+    } else {
+        return Course.findOneAndUpdate({ _id: id, 'students.student' : req.token._id}, body, { new: true, runValidators: true })
+    }
+}
+
 const Course = mongoose.model('Course', courseSchema)
 
 module.exports = Course
