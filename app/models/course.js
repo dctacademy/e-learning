@@ -92,6 +92,27 @@ courseSchema.statics.findByIdAndUpdateByRole = function(req){
     }
 }
 
+courseSchema.statics.findByIdAndEnrollByRole = function(req){
+    const Course = this 
+    if(req.token.role? 'admin' : 'moderator') {
+        return Course.findByIdAndUpdate({
+            _id: req.query.id 
+        }, { 
+            $push: { 
+                'students.student' : req.query.studentId 
+            }
+        })
+    } else { 
+        return Course.findByIdAndUpdate({
+            _id: req.query.id
+        }, {
+            $push: {
+                'students.student': req.token._id 
+            }
+        })
+    }
+}
+
 const Course = mongoose.model('Course', courseSchema)
 
 module.exports = Course
