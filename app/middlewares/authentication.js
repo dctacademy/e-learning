@@ -6,6 +6,7 @@ const authenticateUser = (req, res, next) => {
     let tokenData 
     try {
         tokenData = jwt.verify(token, 'dct123')
+        console.log('token data',tokenData)
         User.findById(tokenData._id)
             .then((user) => {
                 req.user = user 
@@ -25,6 +26,7 @@ const authenticateStudent = (req, res, next) => {
     let tokenData 
     try {
         tokenData = jwt.verify(token, 'dct123')
+        console.log('token data', tokenData)
         Student.findById(tokenData._id)
             .then((student) => {
                 req.student = student 
