@@ -3,6 +3,7 @@ const User = require('../models/user')
 const Student = require('../models/student')
 const authenticateUser = (req, res, next) => {
     const token = req.header('Authorization')
+    console.log('req',req)
     let tokenData 
     try {
         tokenData = jwt.verify(token, 'dct123')
