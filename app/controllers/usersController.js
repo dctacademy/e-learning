@@ -39,7 +39,8 @@ usersController.login = (req, res) => {
                         const tokenData = {
                             _id: user._id,
                             email: user.email,
-                            username: user.username
+                            username: user.username,
+                            role: user.role
                         }
                         const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
                         res.json({
