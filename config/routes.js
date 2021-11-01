@@ -11,6 +11,7 @@ const lecturesController = require('../app/controllers/lecturesController')
 
 router.post('/admin/users/register', usersController.register)
 router.post('/admin/users/login', usersController.login)
+router.get('/admin/users',authenticateUser, usersController.list)
 router.get('/admin/users/account', authenticateUser, usersController.account)
 router.put('/admin/users/:id', authenticateUser, usersController.update)
 

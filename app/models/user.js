@@ -49,9 +49,11 @@ userSchema.pre('save', function(next){
                     .then(count => {
                         if(count == 0){
                             user.role = "admin"
+                        }else{
+                            user.role = 'moderator'
                         }
-                    })
                     next()
+                    })
                 })
         })  
 })
