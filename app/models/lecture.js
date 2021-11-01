@@ -12,7 +12,7 @@ const lectureSchema = new Schema({
     },
     assetType: {
             type: String,
-            enum: ['video', 'audio', 'text', 'pdf'],
+            enum: ['video', 'audio', 'text', 'pdf', 'img'],
             required: [true, 'type of the file is required']
     },
     assetURL: {
