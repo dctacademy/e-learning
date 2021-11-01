@@ -29,10 +29,6 @@ const studentSchema = new Schema({
         minlength: [8, 'password must be minimum 8 characters long'],
         maxlength: [128, 'password should not be more than 128 characters long']
     },
-    address: {
-        type: String,
-        minlength: [6, 'address must be minimum 4 characters long']
-    },
     courses: [
         {
             type: Schema.Types.ObjectId,
