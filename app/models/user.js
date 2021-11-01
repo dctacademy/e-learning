@@ -31,7 +31,8 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'moderator'],
+        enum: ['admin', 'moderator','student'],
+        default: 'student',
         required: [true, "role is required"]
     }
 }, { timestamps: true })
@@ -44,6 +45,12 @@ userSchema.pre('save', function(next){
             bcryptjs.hash(user.password, salt)
                 .then((encrypted) => {
                     user.password = encrypted
+                    User.countDocuments()
+                    .then(count => {
+                        if(count == 0){
+                            user.role = "admin"
+                        }
+                    })
                     next()
                 })
         })  
