@@ -2,7 +2,7 @@ const Course = require('../models/course')
 const coursesController = {}
 
 coursesController.list = (req, res) => {
-    Author.find({})
+    Course.findAllByRole(req)
         .then((courses) => {
             res.json(courses)
         })
@@ -12,8 +12,7 @@ coursesController.list = (req, res) => {
 }
 
 coursesController.show = (req, res) => {
-    const id = req.params.id
-    Author.findOne({ _id: id })
+    Course.findOneByRole(req)
         .then((course) => {
             if (course) {
                 res.json(course)
@@ -39,9 +38,7 @@ coursesController.create = (req, res) => {
 }
 
 coursesController.update = (req, res) => {
-    const id = req.params.id
-    const body = req.body
-    Course.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
+    Course.findByIdAndUpdateByRole(req)
         .then((course) => {
             res.json(course)
         })
