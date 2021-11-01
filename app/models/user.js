@@ -31,7 +31,9 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'moderator','student']
+        enum: ['admin', 'moderator'],
+        default: 'moderator',
+        required: [true, "role is required"]
     }
 }, { timestamps: true })
 

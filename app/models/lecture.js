@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+const isURL = require('validator/lib/isURL')
 const Schema = mongoose.Schema
+
 
 const lectureSchema = new Schema({
     title: {
@@ -10,13 +12,22 @@ const lectureSchema = new Schema({
         type: String,
         required: [true, 'description is required']
     },
-    typeOf: {
+    assetType: {
             type: String,
+            enum: ['video', 'audio', 'text', 'pdf', 'img'],
             required: [true, 'type of the file is required']
     },
     assetURL: {
         type: String,
-        required: true
+        required: true, 
+        validate: {
+            validator: function(value){ 
+                return isURL(value)
+            },
+            message: function(){
+                return 'invalid URL format ( sample - http://www.dct.com/media/js.img )'
+            }
+        }
     },
     comments: [
         {
