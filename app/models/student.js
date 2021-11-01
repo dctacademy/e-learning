@@ -31,8 +31,10 @@ const studentSchema = new Schema({
     },
     courses: [
         {
-            type: Schema.Types.ObjectId,
-            ref: 'Course'
+            course: {
+                type: Schema.Types.ObjectId,
+                ref: 'Course'
+            }
         }
     ],
     isAllowed: {
