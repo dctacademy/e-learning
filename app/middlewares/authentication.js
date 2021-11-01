@@ -3,12 +3,12 @@ const User = require('../models/user')
 const Student = require('../models/student')
 const authenticateUser = (req, res, next) => {
     const token = req.header('Authorization')
-    console.log('req',req)
     let tokenData 
     try {
         tokenData = jwt.verify(token, 'dct123')
         User.findById(tokenData._id)
             .then((user) => {
+                req.user = user 
                 req.token = tokenData
                 next()
             })
@@ -45,6 +45,7 @@ const authenticateStudent = (req, res, next) => {
 
 const authorizeUser = ( req, res, next) => {
     const { url, method, token } = req
+    console.log('token', token)
     const all = ['POST', 'GET', 'PUT', 'DELETE']
     const canCreate = 'POST', canRead = 'GET', canUpdate = 'PUT', canDestroy = 'DELETE'
     const roles = {
@@ -108,7 +109,7 @@ const authorizeUser = ( req, res, next) => {
     }
 
     const grantAccess = (modelName) => {
-        if (roles[token[role]].models[modelName].includes(method)) {
+        if (roles[token.role].models[modelName].includes(method)) {
                 next()
             } else {
                 res.status(401).json({

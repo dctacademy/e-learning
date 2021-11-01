@@ -19,7 +19,7 @@ router.get('/authors', authenticateUser, authorizeUser, authorsController.list)
 router.post('/authors', authenticateUser,authorizeUser, authorsController.create)
 router.get('/authors/:id', authorsController.show)
 router.put('/authors/:id', authenticateUser,authorizeUser, authorsController.update)
-router.delete('/authors/:id', authenticateUser, authorsController.destory)
+router.delete('/authors/:id', authenticateUser, authorizeUser, authorsController.destory)
 
 router.get('/categories', categoriesController.list)
 router.post('/categories', authenticateUser,authorizeUser, categoriesController.create)
