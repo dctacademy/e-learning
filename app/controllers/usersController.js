@@ -55,13 +55,24 @@ usersController.login = (req, res) => {
 usersController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
+    console.log(body)
     User.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
-        .then((category) => {
-            res.json(category)
+        .then((user) => {
+            res.json(user)
         })
         .catch((err) => {
             res.json(err)
         })
+}
+usersController.list = (req, res) => {
+
+    User.find({ })
+    .then((users) => {
+        res.json(users)
+    })
+    .catch((err) => {
+        res.json(err)
+    })
 }
 
 usersController.account = (req, res) => {

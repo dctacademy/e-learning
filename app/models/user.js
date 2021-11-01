@@ -31,9 +31,7 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['admin', 'moderator','student'],
-        default: 'student',
-        required: [true, "role is required"]
+        enum: ['admin', 'moderator','student']
     }
 }, { timestamps: true })
 
@@ -49,9 +47,11 @@ userSchema.pre('save', function(next){
                     .then(count => {
                         if(count == 0){
                             user.role = "admin"
+                        }else{
+                            user.role = 'moderator'
                         }
-                    })
                     next()
+                    })
                 })
         })  
 })
