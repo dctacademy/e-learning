@@ -1,47 +1,16 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/user')
-const Student = require('../models/student')
+
 const authenticateUser = (req, res, next) => {
     const token = req.header('Authorization')
     let tokenData 
     try {
         tokenData = jwt.verify(token, 'dct123')
-        User.findById(tokenData._id)
-            .then((user) => {
-                req.user = user 
-                req.token = tokenData
-                next()
-            })
-            .catch((err) => {
-                res.status(401).json(err)
-            })
-        // req.token = tokenData
-       
+        console.log('token data',tokenData)
+        req.token = tokenData 
     } catch(e) {
         res.status(401).json(e.message)
     }
 }
-const authenticateStudent = (req, res, next) => {
-    const token = req.header('Authorization')
-    let tokenData 
-    try {
-        tokenData = jwt.verify(token, 'dct123')
-        // console.log('token data', tokenData)
-        Student.findById(tokenData._id)
-            .then((student) => {
-                req.student = student 
-                next()
-            })
-            .catch((err) => {
-                res.status(401).json(err)
-            })
-        // req.token = tokenData
-       
-    } catch(e) {
-        res.status(401).json(e.message)
-    }
-}
-
 
 const authorizeUser = ( req, res, next) => {
     const { url, method, token } = req
@@ -79,7 +48,7 @@ const authorizeUser = ( req, res, next) => {
 
     }
 
-    
+
 
     const grantAccess = (modelName) => {
         if (roles[token.role].models[modelName].includes(method)) {

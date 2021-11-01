@@ -40,6 +40,7 @@ router.post('/courses', authenticateUser, authorizeUser,  coursesController.crea
 router.get('/courses/:id', authenticateUser, authorizeUser, coursesController.show)
 router.put('/courses/:id', authenticateUser, authorizeUser, coursesController.update)
 router.delete('/courses/:id', authenticateUser, authorizeUser,  coursesController.destory)
+router.post('/courses/enroll', authenticateUser, authorizeUser, courseController.enroll )
 
 router.get('/courses/:courseId/lectures', authenticateUser, authorizeUser,  lecturesController.list)
 router.post('/courses/:courseId/lectures', authenticateUser, authorizeUser,  lecturesController.create)
