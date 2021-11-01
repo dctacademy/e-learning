@@ -10,8 +10,9 @@ const lectureSchema = new Schema({
         type: String,
         required: [true, 'description is required']
     },
-    typeOf: {
+    assetType: {
             type: String,
+            enum: ['video', 'audio', 'text', 'pdf'],
             required: [true, 'type of the file is required']
     },
     assetURL: {
