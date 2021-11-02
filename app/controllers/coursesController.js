@@ -59,8 +59,9 @@ coursesController.destroy = (req, res) => {
 }
 
 coursesController.enroll = (req, res) => {
-    const id = req.query.id 
-    Course.findByIdAndEnrollByRole(req)
+    const courses = Course.findByIdAndEnrollByRole(req)
+    // console.log(courses)
+    res.json("successfully enrolled to the course")
     
     
 }

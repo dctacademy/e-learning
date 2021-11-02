@@ -1,4 +1,6 @@
 const Student = require('../models/student')
+const bcryptjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const studentsController = {}
 
 
@@ -22,7 +24,7 @@ studentsController.register = (req, res) => {
     */
 }
 
-studentsController.login = (req, res) => {
+studentsController.login = (req, res,next) => {
     const body = req.body 
     Student.findOne({ email: body.email }) 
         .then((student) => {
@@ -31,14 +33,14 @@ studentsController.login = (req, res) => {
                     errors: 'invalid email or password'
                 })
             }
-
             bcryptjs.compare(body.password, student.password)
                 .then((match) => {
                     if(match) {
                         const tokenData = {
                             _id: student._id,
                             email: student.email,
-                            name: student.name
+                            name: student.name,
+                            role: student.role
                         }
                         const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
                         res.json({
@@ -47,7 +49,7 @@ studentsController.login = (req, res) => {
                     } else {
                         res.json({ errors: 'invalid email or password'})
                     }
-                })
+                }).catch(err=>res.send("invalid"))
         }).catch(err=>{
             res.json(err)
         })
@@ -93,6 +95,7 @@ studentsController.create = (req, res) => {
 studentsController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
+    delete body.password
     Student.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
         .then((student) => {
             res.json(student)
