@@ -18,14 +18,10 @@ const courseSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    category: [
-        {
-            category: {
+    category: {
                 type: Schema.Types.ObjectId,
                 ref: 'Category'
-            }
-        }
-    ],
+        },
     students: [
         {
             student: {
@@ -36,20 +32,25 @@ const courseSchema = new Schema({
                 type: Boolean,
                 default: false
             },
+            enrollment: {
+                type: Date,
+                default: Date.now
+            },
             validity: {
                 type: Number,
-                required: true
+                default: 6
             }
 
         }
     ],
     validity: {
         type: Number, 
+        default: 12,
         required: [true, 'validity in months required'] 
     },
     level: {
         type: String,
-        enum: ['Beginner', 'Intermediate', 'Expert'],
+        enum: ['beginner', 'intermediate', 'expert'],
         required: true
     },
     author: {
@@ -65,7 +66,7 @@ const courseSchema = new Schema({
 
 courseSchema.statics.findAllByRole = function(req){
     const Course = this 
-    if(req.token.role ? 'admin' : 'moderator') {
+    if(req.token.role == 'admin' || req.token.role == 'moderator') {
         return Course.find({})
     } else {
         return Course.find({ 'students.student' : req.token._id })
@@ -95,22 +96,23 @@ courseSchema.statics.findByIdAndUpdateByRole = function(req){
 courseSchema.statics.findByIdAndEnrollByRole = function(req){
     const Course = this 
     if(req.token.role? 'admin' : 'moderator') {
-        return Course.findByIdAndUpdate({
-            _id: req.query.id 
+        return Course.findOneAndUpdate({
+            _id: req.query.courseId 
         }, { 
             $push: { 
-                'students.student' : req.query.studentId 
+                'students.student' : req.query.studentId
             }
         })
     } else { 
-        return Course.findByIdAndUpdate({
-            _id: req.query.id
+        return Course.findOneAndUpdate({
+            _id: req.query.courseId
         }, {
             $push: {
-                'students.student': req.token._id 
+                'students.student' : req.token._id
             }
         })
     }
+
 }
 
 const Course = mongoose.model('Course', courseSchema)

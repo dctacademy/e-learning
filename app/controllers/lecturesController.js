@@ -50,7 +50,7 @@ lecturesController.update = (req, res) => {
         })
 }
 
-lecturesController.destory = (req, res) => {
+lecturesController.destroy = (req, res) => {
     const id = req.params.id
     Lecture.findOneAndDelete({ _id: id })
         .then((lecture) => {

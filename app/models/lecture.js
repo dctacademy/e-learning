@@ -58,6 +58,10 @@ const lectureSchema = new Schema({
 
         }
     ],
+    course: {
+            type: Schema.Types.ObjectId,
+            ref: 'Course'
+    },
     isDelete: {
         type: Boolean,
         default: false

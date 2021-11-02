@@ -40,6 +40,10 @@ const studentSchema = new Schema({
     isAllowed: {
         type: Boolean,
         default: true
+    },
+    role: {
+        type: String,
+        default: 'student'
     }
 }, { timestamps: true })
 

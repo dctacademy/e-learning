@@ -47,7 +47,7 @@ coursesController.update = (req, res) => {
         })
 }
 
-coursesController.destory = (req, res) => {
+coursesController.destroy = (req, res) => {
     const id = req.params.id
     Course.findOneAndDelete({ _id: id })
         .then((course) => {
@@ -59,8 +59,9 @@ coursesController.destory = (req, res) => {
 }
 
 coursesController.enroll = (req, res) => {
-    const id = req.query.id 
-    Course.findByIdAndEnrollByRole(req)
+    const courses = Course.findByIdAndEnrollByRole(req)
+    // console.log(courses)
+    res.json("successfully enrolled to the course")
     
     
 }

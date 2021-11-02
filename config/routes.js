@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router() 
-const { authenticateUser, authorizeUser,authenticateStudent } = require('../app/middlewares/authentication')
+const { authenticateUser, authorizeUser } = require('../app/middlewares/authentication')
 const usersController = require('../app/controllers/usersController')
 const categoriesController = require('../app/controllers/categoriesController')
 const authorsController = require('../app/controllers/authorsController')
@@ -25,7 +25,7 @@ router.get('/categories', authenticateUser, authorizeUser, categoriesController.
 router.post('/categories', authenticateUser, authorizeUser,  categoriesController.create)
 router.get('/categories/:id', authenticateUser, authorizeUser,  categoriesController.show)
 router.put('/categories/:id', authenticateUser,authorizeUser, categoriesController.update)
-router.delete('/categories/:id', authenticateUser,authorizeUser, categoriesController.destory)
+router.delete('/categories/:id', authenticateUser,authorizeUser, categoriesController.destroy)
 
 router.post('/students/register', studentsController.register)
 router.post('/students/login', studentsController.login)
@@ -33,19 +33,19 @@ router.get('/students', authenticateUser, authorizeUser, studentsController.list
 router.post('/students', authenticateUser, authorizeUser, studentsController.create)
 router.get('/students/:id',authenticateUser, authorizeUser,  studentsController.show)
 router.put('/students/:id', authenticateUser, authorizeUser,  studentsController.update)
-router.delete('/students/:id', authenticateUser, authorizeUser,  studentsController.destory)
+router.delete('/students/:id', authenticateUser, authorizeUser,  studentsController.destroy)
 
 router.get('/courses', authenticateUser, authorizeUser, coursesController.list)
 router.post('/courses', authenticateUser, authorizeUser,  coursesController.create)
 router.get('/courses/:id', authenticateUser, authorizeUser, coursesController.show)
 router.put('/courses/:id', authenticateUser, authorizeUser, coursesController.update)
-router.delete('/courses/:id', authenticateUser, authorizeUser,  coursesController.destory)
-router.post('/courses/enroll', authenticateUser, authorizeUser, courseController.enroll )
+router.delete('/courses/:id', authenticateUser, authorizeUser,  coursesController.destroy)
+router.post('/courses/enroll', authenticateUser, authorizeUser, coursesController.enroll )
 
 router.get('/courses/:courseId/lectures', authenticateUser, authorizeUser,  lecturesController.list)
 router.post('/courses/:courseId/lectures', authenticateUser, authorizeUser,  lecturesController.create)
 router.get('/courses/:courseId/lectures/:id', authenticateUser, authorizeUser, lecturesController.show)
 router.put('/courses/:courseId/lectures/:id', authenticateUser, authorizeUser,  lecturesController.update)
-router.delete('/courses/:courseId/lectures/:id', authenticateUser,authorizeUser, lecturesController.destory)
+router.delete('/courses/:courseId/lectures/:id', authenticateUser,authorizeUser, lecturesController.destroy)
 
 module.exports = router
