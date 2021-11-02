@@ -18,14 +18,10 @@ const courseSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    category: [
-        {
-            category: {
+    category: {
                 type: Schema.Types.ObjectId,
                 ref: 'Category'
-            }
-        }
-    ],
+        },
     students: [
         {
             student: {
@@ -36,20 +32,25 @@ const courseSchema = new Schema({
                 type: Boolean,
                 default: false
             },
+            enrollment: {
+                type: Date,
+                default: Date.now
+            },
             validity: {
                 type: Number,
-                required: true
+                default: 6
             }
 
         }
     ],
     validity: {
         type: Number, 
+        default: 12,
         required: [true, 'validity in months required'] 
     },
     level: {
         type: String,
-        enum: ['Beginner', 'Intermediate', 'Expert'],
+        enum: ['beginner', 'intermediate', 'expert'],
         required: true
     },
     author: {

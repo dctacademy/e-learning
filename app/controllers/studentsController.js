@@ -48,6 +48,8 @@ studentsController.login = (req, res) => {
                         res.json({ errors: 'invalid email or password'})
                     }
                 })
+        }).catch(err=>{
+            res.json(err)
         })
 }
 
@@ -100,7 +102,7 @@ studentsController.update = (req, res) => {
         })
 }
 
-studentsController.destory = (req, res) => {
+studentsController.destroy = (req, res) => {
     const id = req.params.id
     Student.findOneAndDelete({ _id: id })
         .then((student) => {

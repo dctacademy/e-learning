@@ -50,7 +50,7 @@ categoriesController.update = (req, res) => {
         })
 }
 
-categoriesController.destory = (req, res) => {
+categoriesController.destroy = (req, res) => {
     const id = req.params.id
     Category.findOneAndDelete({ _id: id })
         .then((category) => {

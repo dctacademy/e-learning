@@ -5,8 +5,9 @@ const authenticateUser = (req, res, next) => {
     let tokenData 
     try {
         tokenData = jwt.verify(token, 'dct123')
-        console.log('token data',tokenData)
+        // console.log('token data',tokenData)
         req.token = tokenData 
+        next()
     } catch(e) {
         res.status(401).json(e.message)
     }
@@ -75,5 +76,5 @@ const authorizeUser = ( req, res, next) => {
 
 
 module.exports = {
-    authenticateUser, authorizeUser, authenticateStudent
+    authenticateUser, authorizeUser
 }

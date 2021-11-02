@@ -47,7 +47,7 @@ coursesController.update = (req, res) => {
         })
 }
 
-coursesController.destory = (req, res) => {
+coursesController.destroy = (req, res) => {
     const id = req.params.id
     Course.findOneAndDelete({ _id: id })
         .then((course) => {
