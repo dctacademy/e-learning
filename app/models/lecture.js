@@ -41,7 +41,7 @@ const lectureSchema = new Schema({
             },
             isApproved: {
                 type: Boolean,
-                default: false
+                default: true
             }
         }
     ],

@@ -59,11 +59,24 @@ coursesController.destroy = (req, res) => {
 }
 
 coursesController.enroll = (req, res) => {
-    const courses = Course.findByIdAndEnrollByRole(req)
-    // console.log(courses)
-    res.json("successfully enrolled to the course")
-    
-    
+    Course.findByIdAndEnrollByRole(req) 
+        .then((values) => {
+            const [course, student] = values
+            res.json(course)
+        })
+        .catch((err) => {
+            res.json(err) 
+        }) 
+}
+coursesController.unenroll = (req, res) => {
+    Course.findByIdAndUnenroll(req) 
+        .then((values) => {
+            const [course, student] = values
+            res.json(course)
+        })
+        .catch((err) => {
+            res.json(err) 
+        }) 
 }
 
 module.exports = coursesController

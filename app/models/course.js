@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Student = require('./student')
 const Schema = mongoose.Schema
 
 const courseSchema = new Schema({
@@ -93,26 +94,73 @@ courseSchema.statics.findByIdAndUpdateByRole = function(req){
     }
 }
 
-courseSchema.statics.findByIdAndEnrollByRole = function(req){
+courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
     const Course = this 
-    if(req.token.role? 'admin' : 'moderator') {
-        return Course.findOneAndUpdate({
-            _id: req.query.courseId 
-        }, { 
-            $push: { 
-                'students.student' : req.query.studentId
-            }
-        })
+    if(req.token.role == 'admin' || req.token.role == 'moderator') {
+        return Course.findOne({ 'students.student' : req.query.studentId})
+            .then((course) => {
+                if(course) {
+                    return Promise.reject("Already enrolled")
+                } else {
+                    return Promsie.all([Course.findByIdAndUpdate(req.query.courseId, {
+                        $push: {
+                            'students' : { student : req.query.studentId }
+                        }
+                    },{ new: true })], Student.findByIdAndUpdate(req.query.studentId, { $push: { 'courses' : { course: req.query.courseId } }},{ new: true }) )
+                }
+            })
     } else { 
-        return Course.findOneAndUpdate({
-            _id: req.query.courseId
-        }, {
-            $push: {
-                'students.student' : req.token._id
-            }
-        })
+        return Course.findOne({ 'students.student' : req.token._id })
+            .then((course) => {
+                if(course) {
+                    return Promise.reject("Already enrolled")
+                } else {
+                    return Promise.all([Course.findByIdAndUpdate(req.query.courseId, {
+                        $push: {
+                            'students' : { student: req.token._id }
+                        }
+                    },{ new: true }), Student.findByIdAndUpdate(req.token._id, {
+                        $push: {
+                            'courses' : { course: req.query.courseId}
+                        }
+                    },{ new: true })]) 
+                }
+            })
     }
-
+}
+courseSchema.statics.findByIdAndUnenroll = function(req, res){
+    const Course = this 
+    if(req.token.role == 'admin' || req.token.role == 'moderator') {
+        return Course.findOne({ 'students.student' : req.query.studentId})
+            .then((course) => {
+                if(course) {
+                    return Promsie.all([Course.findByIdAndUpdate(req.query.courseId, {
+                        $pull: {
+                            'students' : { student : req.query.studentId }
+                        }
+                    },{ new: true })], Student.findByIdAndUpdate(req.query.studentId, { $pull: { 'courses' : { course: req.query.courseId } }},{ new: true }) )
+                }else{
+                    return Promise.reject("Already unenrolled")
+                }
+            })
+    } else { 
+        return Course.findOne({ 'students.student' : req.token._id })
+            .then((course) => {
+                if(course) {
+                    return Promise.all([Course.findByIdAndUpdate(req.query.courseId, {
+                        $pull: {
+                            'students' : { student: req.token._id }
+                        }
+                    },{ new: true }), Student.findByIdAndUpdate(req.token._id, {
+                        $pull: {
+                            'courses' : { course: req.query.courseId}
+                        }
+                    },{ new: true })]) 
+                }else{
+                    return Promise.reject("Already unenrolled")
+                }
+            })
+    }
 }
 
 const Course = mongoose.model('Course', courseSchema)
