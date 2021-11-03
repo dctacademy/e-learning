@@ -61,4 +61,33 @@ lecturesController.destroy = (req, res) => {
         })
 }
 
+lecturesController.comment = (req, res) => {
+    const id = req.params.id
+    Lecture.findByIdAndUpdate({ _id: id }, {
+        $push: {
+            'comments' : { student : req.token._id, body: req.body.body }
+        }
+    },{ new: true })
+        .then((lecture) => {
+            res.json(lecture)
+        })
+        .catch((err) => {
+            res.json(err)
+        })
+}
+lecturesController.uncomment = (req, res) => {
+    const id = req.params.id
+    Lecture.findByIdAndUpdate({ _id: id }, {
+        $pull: {
+            'comments' : { student : req.token._id, _id: req.params.commentId }
+        }
+    },{ new: true })
+        .then((lecture) => {
+            res.json(lecture)
+        })
+        .catch((err) => {
+            res.json(err)
+        })
+}
+
 module.exports = lecturesController

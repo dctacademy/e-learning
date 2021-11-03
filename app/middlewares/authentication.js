@@ -15,8 +15,8 @@ const authenticateUser = (req, res, next) => {
 
 const authorizeUser = ( req, res, next) => {
     const { url, method, token } = req
-    const canCreate = 'POST', canRead = 'GET', canUpdate = 'PUT', canDestroy = 'DELETE'
-    const all = [canCreate, canRead, canUpdate, canDestroy]
+    const canCreate = 'POST', canRead = 'GET', canUpdate = 'PUT', canDestroy = 'DELETE', canUpdateSpecific = 'PATCH'
+    const all = [canCreate, canRead, canUpdate, canDestroy, canUpdateSpecific]
     
     const roles = {
         admin: {
@@ -39,11 +39,11 @@ const authorizeUser = ( req, res, next) => {
         },
         student: {
             models: {
-                author: ['GET'],
-                category: ['GET'],
-                course: ['GET'],
-                lecture: ['GET'],
-                student: ['POST', 'GET', 'PUT']
+                author: [canRead],
+                category: [canRead],
+                course: [canRead, canUpdateSpecific],
+                lecture: [canRead],
+                student: [canCreate, canRead, canUpdate]
             }
         }
 
