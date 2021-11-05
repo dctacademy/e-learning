@@ -76,7 +76,7 @@ usersController.list = (req, res) => {
 }
 
 usersController.account = (req, res) => {
-    res.json(req.user)
+    res.json(req.token)
 }
 
 

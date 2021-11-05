@@ -4,9 +4,14 @@
   "description": "back end setup for students projects",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": "17.0.1",
+    "npm": "8.1.2"
+  },
+  "stack": "heroku-20",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dctacademy/e-learning.git"
