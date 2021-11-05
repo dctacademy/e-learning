@@ -28,7 +28,7 @@ The modules are as follows
 | ---- |-----|-------|--------|---------|------| ------|------|
 | 1. | register a user | POST | /admin/users/register | <ul> <li> username*  </li> <li> email*  </li> <li> password*  </li> <li> role  </li> </ul>  |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li>  <li> admin (default first user is admin) </li> <li> createdAt</li> <li> updatedAt </li> </ul> | no | no|
 | 2. | login a user | POST | /admin/users/login |  <ul> <li> email* </li> <li> password* </li> </ul> | <ul> <li>  token (validity 2 days.) </li></ul> | no | no|
-| 3. | get user information | GET | /admin/users/account | - |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li><li> role </li><li> iat ( "Issued At" )(provided by jwt)</li><li> exp <li>(The date-time when this token will expire.)</li> <li>(provided by jwt)</li></li> </ul> | `{ Authorization : <token>}` | admin|
+| 3. | get user information | GET | /admin/users/account | - |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li><li> role </li><li> iat ( "Issued At" )(provided by jwt)</li><li> exp (The date-time when this token will expire.) (provided by jwt)</li> </ul> | `{ Authorization : <token>}` | admin|
 | 4. | get all users | GET | /admin/users | - | empty array or array of objects | `{ Authorization : <token>}` | admin|
 | 5. | register a user (role moderator) | POST | /admin/users/register | <ul> <li> username*  </li> <li> email*  </li> <li> password*  </li> <li> role </li> </ul>  |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li>  <li> moderator (default except first user is moderator) </li> <li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin (only admin role can create moderator)|
 ---
@@ -46,7 +46,34 @@ The modules are as follows
 ---
 **note - * indicates a required field**
 ---
-### Student Resource
+### Author Resource
+| # | action | method | url | request | response | auth (headers) | Role |
+| ---- |-----|-------|--------|---------|------| ------|------|
+
+
+
+---
+**note - * indicates a required field**
+---
+### Category Resource
+| # | action | method | url | request | response | auth (headers) | Role |
+| ---- |-----|-------|--------|---------|------| ------|------|
+
+
+
+---
+**note - * indicates a required field**
+---
+### Course Resource
+| # | action | method | url | request | response | auth (headers) | Role |
+| ---- |-----|-------|--------|---------|------| ------|------|
+
+
+
+---
+**note - * indicates a required field**
+---
+### Lecture Resource
 | # | action | method | url | request | response | auth (headers) | Role |
 | ---- |-----|-------|--------|---------|------| ------|------|
 
