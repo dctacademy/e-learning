@@ -42,7 +42,7 @@ const userSchema = new Schema({
 
 userSchema.methods.saveAdmin = function(){
     const currentUser = this  
-    return User.findOne({ academyName: currentUser.academyName })
+    return User.findOne({ 'academy.name': currentUser.academy.name })
         .then((user) => {
             if(!user) {
                 return bcryptjs.genSalt()

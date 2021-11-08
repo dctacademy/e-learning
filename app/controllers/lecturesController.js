@@ -2,7 +2,7 @@ const Lecture = require('../models/lecture')
 const lecturesController = {}
 
 lecturesController.list = (req, res) => {
-    Lecture.find({user: req.token._id })
+    Lecture.find({course: req.params.courseId, user: req.token._id })
         .then((lectures) => {
             res.json(lectures)
         })
@@ -29,6 +29,7 @@ lecturesController.show = (req, res) => {
 lecturesController.create = (req, res) => {
     const body = req.body
     const lecture = new Lecture(body)
+    lecture.course = req.params.courseId
     lecture.user = req.token._id
     lecture.save()
         .then((lecture) => {
@@ -66,7 +67,7 @@ lecturesController.comment = (req, res) => {
     const id = req.params.id
     Lecture.findByIdAndUpdate({ _id: id, user: req.token._id }, {
         $push: {
-            'comments' : { student : req.token._id, body: req.body.body } // have to write it
+            'comments' : { student : req.token._id,body: req.body.body}
         }
     },{ new: true })
         .then((lecture) => {
