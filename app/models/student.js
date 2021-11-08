@@ -44,6 +44,10 @@ const studentSchema = new Schema({
     role: {
         type: String,
         default: 'student'
+    },
+    user: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
     }
 }, { timestamps: true })
 

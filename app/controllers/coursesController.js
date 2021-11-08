@@ -28,6 +28,7 @@ coursesController.show = (req, res) => {
 coursesController.create = (req, res) => {
     const body = req.body
     const course = new Course(body)
+    course.user = req.token._id
     course.save()
         .then((course) => {
             res.json(course)
@@ -49,7 +50,7 @@ coursesController.update = (req, res) => {
 
 coursesController.destroy = (req, res) => {
     const id = req.params.id
-    Course.findOneAndDelete({ _id: id })
+    Course.findOneAndDelete({ _id: id,user: req.token._id })
         .then((course) => {
             res.json(course)
         })

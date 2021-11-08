@@ -7,6 +7,7 @@ const studentsController = {}
 studentsController.register = (req, res) => {
     const body = req.body 
     const student = new Student(body)
+    student.user =  req.token._id
     student.save()
         .then((student) => {
             res.json(student)
@@ -56,7 +57,7 @@ studentsController.login = (req, res,next) => {
 }
 
 studentsController.list = (req, res) => {
-    Student.find({ })
+    Student.find({user: req.token._id })
         .then((students) => {
             res.json(students)
         })
@@ -67,7 +68,7 @@ studentsController.list = (req, res) => {
 
 studentsController.show = (req, res) => {
     const id = req.params.id
-    Student.findOne({ _id: id })
+    Student.findOne({ _id: id,user: req.token._id })
         .then((student) => {
             if (student) {
                 res.json(student)
@@ -83,6 +84,7 @@ studentsController.show = (req, res) => {
 studentsController.create = (req, res) => {
     const body = req.body
     const student = new Student(body)
+    student.user = req.token._id
     student.save()
         .then((student) => {
             res.json(student)
@@ -96,7 +98,7 @@ studentsController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
     delete body.password
-    Student.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
+    Student.findOneAndUpdate({ _id: id,user: req.token._id }, body, { new: true, runValidators: true })
         .then((student) => {
             res.json(student)
         })
@@ -107,7 +109,7 @@ studentsController.update = (req, res) => {
 
 studentsController.destroy = (req, res) => {
     const id = req.params.id
-    Student.findOneAndDelete({ _id: id })
+    Student.findOneAndDelete({ _id: id,user: req.token._id })
         .then((student) => {
             res.json(student)
         })
