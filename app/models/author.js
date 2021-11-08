@@ -10,6 +10,10 @@ const authorSchema = new Schema({
     },
     bio: {
         type: String
+    },
+    user: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
     }
 }, { timestamps: true })
 

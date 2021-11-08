@@ -2,7 +2,7 @@ const Author = require('../models/author')
 const authorsController = {}
 
 authorsController.list = (req, res) => {
-    Author.find({})
+    Author.find({ user: req.token._id })
         .then((authors) => {
             res.json(authors)
         })
@@ -13,7 +13,7 @@ authorsController.list = (req, res) => {
 
 authorsController.show = (req, res) => {
     const id = req.params.id
-    Author.findOne({ _id: id })
+    Author.findOne({ _id: id, user: req.token._id  })
         .then((author) => {
             if (author) {
                 res.json(author)
@@ -29,6 +29,7 @@ authorsController.show = (req, res) => {
 authorsController.create = (req, res) => {
     const body = req.body
     const author = new Author(body)
+    author.user = req.token._id 
     author.save()
         .then((author) => {
             res.json(author)
@@ -41,7 +42,7 @@ authorsController.create = (req, res) => {
 authorsController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
-    Author.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
+    Author.findOneAndUpdate({ _id: id, user: req.token._id }, body, { new: true, runValidators: true })
         .then((author) => {
             res.json(author)
         })
@@ -52,7 +53,7 @@ authorsController.update = (req, res) => {
 
 authorsController.destory = (req, res) => {
     const id = req.params.id
-    Author.findOneAndDelete({ _id: id })
+    Author.findOneAndDelete({ _id: id, user: req.token._id })
         .then((author) => {
             res.json(author)
         })

@@ -32,31 +32,42 @@ const userSchema = new Schema({
     role: {
         type: String,
         enum: ['admin', 'moderator'],
-        default: 'moderator',
+        // default: 'moderator',
         required: [true, "role is required"]
+    },
+    academyName: {
+        type: String, 
+        required: true, 
+        unique: true 
+    },
+    website: {
+        type: String,
+        required: true,
+        unique: true 
     }
 }, { timestamps: true })
 
+userSchema.methods.saveAdmin = function(){
+    const currentUser = this  
+    return User.findOne({ academyName: currentUser.academyName })
+        .then((user) => {
+            if(!user) {
+                return bcryptjs.genSalt()
+                    .then((salt) => {
+                        return bcryptjs.hash(currentUser.password, salt)
+                            .then((encrypted) => {
+                                currentUser.role = "admin"
+                                currentUser.password = encrypted
+                                return currentUser.save() 
+                            })
+                    })      
+            } else {
+                return Promise.resolve({ notice: 'admin for this academy is already created' })
+            }  
+        })
+}
 
-userSchema.pre('save', function(next){
-    const user = this
-    bcryptjs.genSalt()
-        .then((salt) => {
-            bcryptjs.hash(user.password, salt)
-                .then((encrypted) => {
-                    user.password = encrypted
-                    User.countDocuments()
-                    .then(count => {
-                        if(count == 0){
-                            user.role = "admin"
-                        }else{
-                            user.role = 'moderator'
-                        }
-                    next()
-                    })
-                })
-        })  
-})
+
 
 const User = mongoose.model('User', userSchema)
 
