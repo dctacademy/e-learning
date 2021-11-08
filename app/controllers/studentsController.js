@@ -20,6 +20,7 @@ studentsController.register = (req, res) => {
 
 studentsController.login = (req, res,next) => {
     const body = req.body 
+    // console.log(req.body)
     Student.findOne({ email: body.email }) 
         .then((student) => {
             if(!student) {
@@ -28,16 +29,17 @@ studentsController.login = (req, res,next) => {
                 })
             }
 
-            bcryptjs.compare(body.password, student.password)
+           return bcryptjs.compare(body.password, student.password)
                 .then((match) => {
+                    console.log(match)
                     if(match) {
                         const tokenData = {
                             _id: student._id,
                             email: student.email,
                             name: student.name,
                             role: student.role,
-                            user: student.user 
-                        }
+                            user: student.user
+                        }                        
                         const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
                         res.json({
                             token: `${token}`

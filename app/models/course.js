@@ -74,7 +74,7 @@ courseSchema.statics.findAllByRole = function(req){
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
         return Course.find({user: req.token._id})
     } else {
-        return Course.find({ 'students.student' : req.token._id, user: req.token.user }) //check
+        return Course.find({ user : req.token.user })
     }
 }
 
@@ -101,16 +101,20 @@ courseSchema.statics.findByIdAndUpdateByRole = function(req){
 courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
     const Course = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id})
+        return Course.findOne({ 'students.student': req.query.studentId, user: req.token.user })
             .then((course) => {
                 if(course) {
                     return Promise.reject("Already enrolled")
                 } else {
-                    return Promsie.all([Course.findByIdAndUpdate(req.query.courseId, {
+                    return Promise.all([Course.findByIdAndUpdate(req.query.courseId, {
                         $push: {
-                            'students' : { student : req.query.studentId }
+                            'students' : { student: req.query.studentId }
                         }
-                    },{ new: true })], Student.findByIdAndUpdate(req.query.studentId, { $push: { 'courses' : { course: req.query.courseId } }},{ new: true }) )
+                    },{ new: true }), Student.findByIdAndUpdate(req.query.studentId, {
+                        $push: {
+                            'courses' : { course: req.query.courseId}
+                        }
+                    },{ new: true })]) 
                 }
             })
     } else { 
