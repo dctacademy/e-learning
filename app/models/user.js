@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const bcryptjs = require('bcryptjs')
 const isEmail = require('validator/lib/isEmail')
 const Schema = mongoose.Schema
+const academySchema = require('./academy')
+
 const userSchema = new Schema({
     username: {
         type: String, 
@@ -35,16 +37,7 @@ const userSchema = new Schema({
         // default: 'moderator',
         required: [true, "role is required"]
     },
-    academyName: {
-        type: String, 
-        required: true, 
-        unique: true 
-    },
-    website: {
-        type: String,
-        required: true,
-        unique: true 
-    }
+    academy: academySchema
 }, { timestamps: true })
 
 userSchema.methods.saveAdmin = function(){

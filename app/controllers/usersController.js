@@ -6,8 +6,8 @@ const usersController = {}
 usersController.register = (req, res) => {
     const body = req.body 
     const user = new User(body)
-    const { academyName } = body 
-    if(!academyName) {
+    const { academy } = body 
+    if(!academy.name.trim()) {
         res.json({ 
             errors: 'academy name is required'
         })
@@ -39,7 +39,8 @@ usersController.login = (req, res) => {
                             _id: user._id,
                             email: user.email,
                             username: user.username,
-                            role: user.role
+                            role: user.role,
+                            academyId: user.academy._id
                         }
                         const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
                         res.json({

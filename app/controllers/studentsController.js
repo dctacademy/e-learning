@@ -8,6 +8,7 @@ studentsController.register = (req, res) => {
     const body = req.body 
     const student = new Student(body)
     student.user =  req.token._id
+    student.academyId = req.token.academyId
     student.save()
         .then((student) => {
             res.json(student)
@@ -15,14 +16,6 @@ studentsController.register = (req, res) => {
         .catch((err) =>{ 
             res.json(err)
         })
-   
-        
-    /*
-    const student = new student()
-    student.studentname = body.name 
-    student.email = body.email
-    student.password = body.password
-    */
 }
 
 studentsController.login = (req, res,next) => {
@@ -34,6 +27,7 @@ studentsController.login = (req, res,next) => {
                     errors: 'invalid email or password'
                 })
             }
+
             bcryptjs.compare(body.password, student.password)
                 .then((match) => {
                     if(match) {
@@ -41,7 +35,8 @@ studentsController.login = (req, res,next) => {
                             _id: student._id,
                             email: student.email,
                             name: student.name,
-                            role: student.role
+                            role: student.role,
+                            user: student.user 
                         }
                         const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
                         res.json({

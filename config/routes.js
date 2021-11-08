@@ -27,7 +27,7 @@ router.get('/categories/:id', authenticateUser, authorizeUser,  categoriesContro
 router.put('/categories/:id', authenticateUser,authorizeUser, categoriesController.update)
 router.delete('/categories/:id', authenticateUser,authorizeUser, categoriesController.destroy)
 
-router.post('/students/register', studentsController.register)
+router.post('/admin/students/register', authenticateUser, authorizeUser, studentsController.register)
 router.post('/students/login', studentsController.login)
 router.get('/students', authenticateUser, authorizeUser, studentsController.list)
 router.post('/students', authenticateUser, authorizeUser, studentsController.create)
