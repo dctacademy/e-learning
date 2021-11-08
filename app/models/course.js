@@ -61,6 +61,10 @@ const courseSchema = new Schema({
     isDelete: {
         type: Boolean,
         default: false
+    },
+    user: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
     }
 
 }, { timestamps: true })
@@ -68,18 +72,18 @@ const courseSchema = new Schema({
 courseSchema.statics.findAllByRole = function(req){
     const Course = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.find({})
+        return Course.find({user: req.token._id})
     } else {
-        return Course.find({ 'students.student' : req.token._id })
+        return Course.find({ 'students.student' : req.token._id }) //check
     }
 }
 
 courseSchema.statics.findOneByRole = function(req){
     const Course = this 
     if(req.token.role ? 'admin' : 'moderator') {
-        return Course.findOne({ _id: req.params.id })
+        return Course.findOne({ _id: req.params.id, user: req.token._id })
     } else { 
-        return Course.findOne({ 'students.student' : req.token._id , _id: req.params.id})
+        return Course.findOne({ 'students.student' : req.token._id , _id: req.params.id})// check
     }
 }   
 

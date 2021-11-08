@@ -15,7 +15,11 @@ const categorySchema = new Schema({
                 ref: 'Course'
             }
         }
-    ]
+    ],
+    user: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
+    }
 }, { timestamps: true })
 
 

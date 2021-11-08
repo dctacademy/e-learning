@@ -32,7 +32,7 @@ The modules are as follows
 | 4. | get all users | GET | /admin/users | - | empty array or array of objects | `{ Authorization : <token>}` | admin|
 | 5. | register a user (role moderator) | POST | /admin/users/register | <ul> <li> username*  </li> <li> email*  </li> <li> password*  </li> <li> role </li> </ul>  |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li>  <li> moderator (default except first user is moderator) </li> <li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin (only admin role can create moderator)|
 ---
-**note - * indicates a required field**
+***note - * indicates a required field***
 ---
 ### Student Resource
 | # | action | method | url | request | response | auth (headers) | Role |
@@ -44,16 +44,16 @@ The modules are as follows
 | 5. | update student info | PUT | /students/:id | <ul> <li> name </li> <li> email </li><li> isAllowed (boolean) </li>   </ul>  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin, moderator and registerd student   |
 | 6. | delete student | DELETE | /students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
 ---
-**note - * indicates a required field**
+***note - * indicates a required field***
 ---
 ### Author Resource
 | # | action | method | url | request | response | auth (headers) | Role |
 | ---- |-----|-------|--------|---------|------| ------|------|
-
+| 1. | create a author | POST | /authors | <ul> <li> name*  </li> <li> email*  </li> <li> password*  </li><li> role </li><li> isAllowed (default true)</li><li> courses </li> </ul>  |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li><li> true </li> <li> empty array </li><li> createdAt</li> <li> updatedAt </li> </ul> | no | no|
 
 
 ---
-**note - * indicates a required field**
+***note - * indicates a required field***
 ---
 ### Category Resource
 | # | action | method | url | request | response | auth (headers) | Role |
@@ -62,7 +62,7 @@ The modules are as follows
 
 
 ---
-**note - * indicates a required field**
+****note - * indicates a required field****
 ---
 ### Course Resource
 | # | action | method | url | request | response | auth (headers) | Role |
@@ -71,7 +71,7 @@ The modules are as follows
 
 
 ---
-**note - * indicates a required field**
+***note - * indicates a required field***
 ---
 ### Lecture Resource
 | # | action | method | url | request | response | auth (headers) | Role |
@@ -80,5 +80,5 @@ The modules are as follows
 
 
 ---
-**note - * indicates a required field**
+***note - * indicates a required field***
 ---
