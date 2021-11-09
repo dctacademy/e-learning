@@ -55,7 +55,7 @@ usersController.login = (req, res) => {
 usersController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
-    console.log(body)
+    delete body.password
     User.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
         .then((user) => {
             res.json(user)
@@ -65,8 +65,7 @@ usersController.update = (req, res) => {
         })
 }
 usersController.list = (req, res) => {
-
-    User.find({ 'academy._id' : req.token.academyId})
+    User.find({ 'academy._id': req.token.academyId})
     .then((users) => {
         res.json(users)
     })

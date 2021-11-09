@@ -31,7 +31,6 @@ studentsController.login = (req, res,next) => {
 
            return bcryptjs.compare(body.password, student.password)
                 .then((match) => {
-                    console.log(match)
                     if(match) {
                         const tokenData = {
                             _id: student._id,
