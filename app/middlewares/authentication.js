@@ -42,7 +42,7 @@ const authorizeUser = ( req, res, next) => {
                 author: [canRead],
                 category: [canRead],
                 course: [canRead, canUpdateSpecific],
-                lecture: [canRead],
+                lecture: [canRead,canUpdateSpecific],
                 student: [canCreate, canRead, canUpdate]
             }
         }
