@@ -75,7 +75,17 @@ usersController.list = (req, res) => {
 }
 
 usersController.account = (req, res) => {
-    res.json(req.token)
+    User.findById({ _id: req.token._id }) 
+        .then((user) => {
+            if(!user) {
+                res.json({})
+            } else {
+                res.json(user)
+            }
+        })
+        .catch((err) => {
+            res.json(err)
+        })
 }
 
 

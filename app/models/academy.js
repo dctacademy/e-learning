@@ -4,7 +4,6 @@ const Schema = mongoose.Schema
 const academySchema = new Schema({
     name: {
         type: String,
-        required: true 
     },
     website: {
         type: String
