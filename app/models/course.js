@@ -21,7 +21,8 @@ const courseSchema = new Schema({
     },
     category: {
                 type: Schema.Types.ObjectId,
-                ref: 'Category'
+                ref: 'Category',
+                required: true
         },
     students: [
         {
@@ -56,7 +57,8 @@ const courseSchema = new Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'Author'
+        ref: 'Author',
+        required: true
     },
     isDelete: {
         type: Boolean,
@@ -101,7 +103,7 @@ courseSchema.statics.findByIdAndUpdateByRole = function(req){
 courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
     const Course = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.findOne({ 'students.student': req.query.studentId, user: req.token.user })
+        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id })
             .then((course) => {
                 if(course) {
                     return Promise.reject("Already enrolled")
@@ -139,22 +141,28 @@ courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
 courseSchema.statics.findByIdAndUnenroll = function(req, res){
     const Course = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id})
+        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id })
             .then((course) => {
-                if(course) {
-                    return Promsie.all([Course.findByIdAndUpdate(req.query.courseId, {
+                if(!course) {
+                    return Promise.reject("Already Unenrolled")
+                } else {
+                    return Promise.all([Course.findByIdAndUpdate(req.query.courseId, {
                         $pull: {
-                            'students' : { student : req.query.studentId }
+                            'students' : { student: req.query.studentId }
                         }
-                    },{ new: true })], Student.findByIdAndUpdate(req.query.studentId, { $pull: { 'courses' : { course: req.query.courseId } }},{ new: true }) )
-                }else{
-                    return Promise.reject("Already unenrolled")
+                    },{ new: true }), Student.findByIdAndUpdate(req.query.studentId, {
+                        $pull: {
+                            'courses' : { course: req.query.courseId}
+                        }
+                    },{ new: true })]) 
                 }
             })
     } else { 
         return Course.findOne({ 'students.student': req.token._id, user: req.token.user })
             .then((course) => {
-                if(course) {
+                if(!course) {
+                    return Promise.reject("Already Unenrolled")
+                } else {
                     return Promise.all([Course.findByIdAndUpdate(req.query.courseId, {
                         $pull: {
                             'students' : { student: req.token._id }
@@ -164,8 +172,6 @@ courseSchema.statics.findByIdAndUnenroll = function(req, res){
                             'courses' : { course: req.query.courseId}
                         }
                     },{ new: true })]) 
-                }else{
-                    return Promise.reject("Already unenrolled")
                 }
             })
     }

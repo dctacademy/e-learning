@@ -2,7 +2,7 @@ const Author = require('../models/author')
 const authorsController = {}
 
 authorsController.list = (req, res) => {
-    Author.find({ user: req.token._id })
+    Author.find({ user:  req.token._id})
         .then((authors) => {
             res.json(authors)
         })
