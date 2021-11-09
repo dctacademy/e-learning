@@ -66,7 +66,7 @@ usersController.update = (req, res) => {
 }
 usersController.list = (req, res) => {
 
-    User.find({ })
+    User.find({ 'academy._id' : req.token.academyId})
     .then((users) => {
         res.json(users)
     })
@@ -76,7 +76,17 @@ usersController.list = (req, res) => {
 }
 
 usersController.account = (req, res) => {
-    res.json(req.token)
+    User.findById({ _id: req.token._id }) 
+        .then((user) => {
+            if(!user) {
+                res.json({})
+            } else {
+                res.json(user)
+            }
+        })
+        .catch((err) => {
+            res.json(err)
+        })
 }
 
 
