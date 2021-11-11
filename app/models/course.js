@@ -20,8 +20,8 @@ const courseSchema = new Schema({
         default: Date.now
     },
     category: {
-                type: Schema.Types.ObjectId,
-                ref: 'Category',
+                type: String,
+                enum: ['HTML', 'CSS', 'javascript', 'reactjs', 'nodejs','expressjs', 'mongodb'],
                 required: true
         },
     students: [
@@ -56,8 +56,7 @@ const courseSchema = new Schema({
         required: true
     },
     author: {
-        type: Schema.Types.ObjectId,
-        ref: 'Author',
+        type: String,
         required: true
     },
     isDelete: {

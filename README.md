@@ -16,10 +16,8 @@ The modules are as follows
 
 1. User
 2. Student
-3. Author
-4. Category
-5. Course
-6. Lecture
+3. Course
+4. Lecture
 
 # API's base url - https://dct-e-learning.herokuapp.com/api
 
@@ -35,40 +33,14 @@ The modules are as follows
 ### Student Resource
 | # | action | method | url | request | response | auth (headers) | Role |
 | ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | register a student | POST | /admin/students/register | <ul> <li> name*  </li> <li> email*  </li> <li> password*  </li><li> role </li><li> isAllowed </li><li> courses </li> </ul>  |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> student </li><li> true (default true) </li> <li> courses empty array </li> <li> user </li> <li> academyId </li><li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin|
+| 1. | register a student | POST | /admin/students/register | <ul> <li> name*  </li> <li> email*  </li> <li> password*  </li><li> role </li><li> isAllowed </li><li> courses </li> </ul>  |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> student </li><li> true (default true) </li> <li> courses empty array </li> <li> user </li> <li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin|
 | 2. | login a student | POST | /students/login |  <ul> <li> email* </li> <li> password* </li> </ul> | <ul> <li>  token </li></ul> | no | no|
-| 3. | get student information | GET | /students/:id | - |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> user</li><li> academyId</li><li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin |
+| 3. | get student information | GET | /students/:id | - |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> user</li><li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin |
 | 4. | get all students | GET | /students | - | empty array or array of objects | `{ Authorization : <token>}` | admin  |
 | 5. | update student info | PUT | /students/:id | <ul> <li> name </li> <li> email </li><li> isAllowed (boolean) </li>   </ul>  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
-| 6. | delete student | DELETE | /students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> user </li><li> academyId </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
+| 6. | delete student | DELETE | /students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> user </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
 ---
 ***note - * indicates a required field***
----
-### Author Resource
-| # | action | method | url | request | response | auth (headers) | Role |
-| ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | get all authors | GET | /authors | -  | empty array of array of objects | `{ Authorization : <token>}` | admin   |
-| 2. | create a author | POST | /authors | <ul> <li> name*  </li> <li> bio </li></ul>  |  <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 3. | get a author info | GET | /authors/:id | -  | <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 4. | update author info | PUT | /authors/:id | <ul> <li> name  </li> <li> bio </li></ul> |  <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-|5. | delete author | DELETE | /authors/:id |-| <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-
-
----
-***note - * indicates a required field***
----
-### Category Resource
-| # | action | method | url | request | response | auth (headers) | Role |
-| ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | get all categories | GET | /categories | -  | empty array of array of objects | `{ Authorization : <token>}` | admin   |
-| 2. | create a categroy | POST | /categries | <ul> <li> name*  </li></ul>|  <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 3. | get a category info | GET | /categories/:id | -  |  <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 4. | update category info | PUT | /categories/:id | <ul> <li> name  </li> </ul> |  <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-|5. | delete category | DELETE | /categories/:id |-| <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-
-
----
-****note - * indicates a required field****
 ---
 ### Course Resource
 | # | action | method | url | request | response | auth (headers) | Role |

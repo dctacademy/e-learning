@@ -21,8 +21,6 @@ const authorizeUser = ( req, res, next) => {
     const roles = {
         admin: {
             models: {
-                author: all ,
-                category: all,
                 course: all,
                 lecture: all,
                 student: all
@@ -30,8 +28,6 @@ const authorizeUser = ( req, res, next) => {
         },
         moderator: {
             models: {
-                author: [canCreate, canRead, canUpdate],
-                category: [canCreate, canRead, canUpdate],
                 course: [canRead, canUpdate],
                 lecture: [canRead, canUpdate],
                 student: [canCreate, canRead, canUpdate]
@@ -39,11 +35,9 @@ const authorizeUser = ( req, res, next) => {
         },
         student: {
             models: {
-                author: [canRead],
-                category: [canRead],
                 course: [canRead, canUpdateSpecific],
                 lecture: [canRead,canUpdateSpecific],
-                student: [canCreate, canRead, canUpdate]
+                student: [ canRead, canUpdate, canUpdateSpecific]
             }
         }
 
@@ -61,11 +55,7 @@ const authorizeUser = ( req, res, next) => {
             }
     }
 
-    if(url.includes('/authors')) { 
-        grantAccess('author')
-    } else if(url.includes('/categories')) {
-        grantAccess('category')
-    } else if(url.includes('/courses')) {
+    if(url.includes('/courses')) {
         grantAccess('course')
     } else if(url.includes('/lectures')) {
         grantAccess('lecture')
