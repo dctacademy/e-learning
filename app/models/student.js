@@ -48,10 +48,6 @@ const studentSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId, 
         ref: 'User'
-    },
-    academyId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Academy'
     }
 }, { timestamps: true })
 

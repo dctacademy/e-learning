@@ -16,10 +16,8 @@ The modules are as follows
 
 1. User
 2. Student
-3. Author
-4. Category
-5. Course
-6. Lecture
+3. Course
+4. Lecture
 
 # API's base url - https://dct-e-learning.herokuapp.com/api
 
@@ -35,40 +33,14 @@ The modules are as follows
 ### Student Resource
 | # | action | method | url | request | response | auth (headers) | Role |
 | ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | register a student | POST | /admin/students/register | <ul> <li> name*  </li> <li> email*  </li> <li> password*  </li><li> role </li><li> isAllowed </li><li> courses </li> </ul>  |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> student </li><li> true (default true) </li> <li> courses empty array </li> <li> user </li> <li> academyId </li><li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin|
+| 1. | register a student | POST | /admin/students/register | <ul> <li> name*  </li> <li> email*  </li> <li> password*  </li><li> role </li><li> isAllowed </li><li> courses </li> </ul>  |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> student </li><li> true (default true) </li> <li> courses empty array </li> <li> user </li> <li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin|
 | 2. | login a student | POST | /students/login |  <ul> <li> email* </li> <li> password* </li> </ul> | <ul> <li>  token </li></ul> | no | no|
-| 3. | get student information | GET | /students/:id | - |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> user</li><li> academyId</li><li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin |
+| 3. | get student information | GET | /students/:id | - |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> user</li><li> createdAt</li> <li> updatedAt </li> </ul> | `{ Authorization : <token>}` | admin |
 | 4. | get all students | GET | /students | - | empty array or array of objects | `{ Authorization : <token>}` | admin  |
 | 5. | update student info | PUT | /students/:id | <ul> <li> name </li> <li> email </li><li> isAllowed (boolean) </li>   </ul>  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
-| 6. | delete student | DELETE | /students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> user </li><li> academyId </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
+| 6. | delete student | DELETE | /students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> user </li><li> empty array or array of objects </li> <li> createdAt</li> <li> updatedAt </li> </ul>  | `{ Authorization : <token>}` | admin   |
 ---
 ***note - * indicates a required field***
----
-### Author Resource
-| # | action | method | url | request | response | auth (headers) | Role |
-| ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | get all authors | GET | /authors | -  | empty array of array of objects | `{ Authorization : <token>}` | admin   |
-| 2. | create a author | POST | /authors | <ul> <li> name*  </li> <li> bio </li></ul>  |  <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 3. | get a author info | GET | /authors/:id | -  | <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 4. | update author info | PUT | /authors/:id | <ul> <li> name  </li> <li> bio </li></ul> |  <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-|5. | delete author | DELETE | /authors/:id |-| <ul> <li> _id </li> <li> name </li><li> bio </li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-
-
----
-***note - * indicates a required field***
----
-### Category Resource
-| # | action | method | url | request | response | auth (headers) | Role |
-| ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | get all categories | GET | /categories | -  | empty array of array of objects | `{ Authorization : <token>}` | admin   |
-| 2. | create a categroy | POST | /categries | <ul> <li> name*  </li></ul>|  <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 3. | get a category info | GET | /categories/:id | -  |  <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 4. | update category info | PUT | /categories/:id | <ul> <li> name  </li> </ul> |  <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-|5. | delete category | DELETE | /categories/:id |-| <ul> <li> _id </li> <li> name </li><li>courses empty array</li><li> user </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-
-
----
-****note - * indicates a required field****
 ---
 ### Course Resource
 | # | action | method | url | request | response | auth (headers) | Role |
@@ -79,7 +51,7 @@ The modules are as follows
 | 4. | get a course info | GET | /courses/:id | -  | <ul> <li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li>students empty array or array of objects</li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 | 5. | update course info | PUT | /courses/:id | <ul> <li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li>  </ul> |  <ul> <li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li>students empty array or array of objects</li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 |6. | delete course | DELETE | /courses/:id |-| <ul> <li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li>students empty array or array of objects</li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-|7. | enroll to the course by admin | PATCH | /courses/enroll?courseId=<courseId>&studentId=<studentId> |-| <ul> <li>students - array of objects  </li><li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
+|7. | enroll to the course by admin | PATCH | /courses/enroll?courseId= < courseId >&studentId=<studentId> |-| <ul> <li>students - array of objects  </li><li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 |8. | unenroll to the course by admin | PATCH | /courses/unenroll?courseId=<courseId>&studentId=<studentId> |-| <ul> <li>students - array of objects / empty array  </li><li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 |9. | enroll to the course by logged in student | PATCH | /courses/enroll?courseId=<courseId> |-| <ul>  <li>students - arrya of objects  </li><li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li> createdAt </li><li> updatedAt </li>  </ul><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |
 |10. | unenroll to the course by logged in student | PATCH | /courses/unenroll?courseId=<courseId> |-| <ul>  <li>students - arrya of objects  </li><li> _id </li> <li> name  </li><li> description  </li><li> duration  </li><li> releaseDate  </li><li> category </li><li> validity</li><li> level </li><li> author  </li><li> createdAt </li><li> updatedAt </li>  </ul><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |
@@ -93,7 +65,7 @@ The modules are as follows
 | ---- |-----|-------|--------|---------|------| ------|------|
 | 1. | get all lectures (admin)| GET | /course/:courseId/lectures | -  | empty array of array of objects | `{ Authorization : <token>}` | admin   |
 | 2. | create a lecture | POST | /course/:courseId/lectures | <ul> <li> title*  </li><li> description*  </li><li> assetType*  </li><li> assetURL* </li><li> comments </li><li> students </li><li> course*  </li><li> isDelete  </li></ul>|  <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> comments empty array or array of objects </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-| 3. | get a lecture info | GET | /course/:courseId/lectures/:id | -  | <ul> <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> comments empty array or array of objects </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
+| 3. | get a lecture info | GET | /course/:courseId/lectures/:id | -  | <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> comments empty array or array of objects </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 | 4. | update lecture info | PUT | /course/:courseId/lectures/:id | <ul>  <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li> </ul> |  <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> comments empty array or array of objects </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 |5. | delete lecture | DELETE | /course/:courseId/lectures/:id |-| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> comments empty array or array of objects </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 |6. | comment to the lecture | PATCH | /course/:courseId/lectures/:id/comments |<ul><li> body*  </li>  </ul>| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> comments array of objects </li><li> students empty array or array of objects </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |

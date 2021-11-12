@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const _ = require("lodash")
 const usersController = {}
 
 usersController.register = (req, res) => {
@@ -53,12 +54,14 @@ usersController.login = (req, res) => {
         })
 }
 usersController.update = (req, res) => {
-    const id = req.params.id
+    const id = req.token._id
     const body = req.body
     delete body.password
+    delete body.role
+   
     User.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
         .then((user) => {
-            res.json(user)
+            res.json(_.pick(user, ['username', 'email','academy']))
         })
         .catch((err) => {
             res.json(err)
@@ -80,7 +83,7 @@ usersController.account = (req, res) => {
             if(!user) {
                 res.json({})
             } else {
-                res.json(user)
+               res.json(_.pick(user, ['username', 'role', 'email','academy']))
             }
         })
         .catch((err) => {
