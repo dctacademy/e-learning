@@ -73,6 +73,37 @@ const lectureSchema = new Schema({
 
 }, { timestamps: true })
 
+lectureSchema.statics.markAsComplete = function(req){
+    const Lecture = this 
+    if(req.token.role == 'admin' || req.token.role == 'moderator') {
+        return Lecture.findOne({ 'students.student': req.query.studentId, user: req.token._id })
+            .then((lecture) => {
+                if(lecture) {
+                    return Promise.reject("Completed")
+                } else {
+                    return Lecture.findByIdAndUpdate(req.params.id, {
+                        $push: {
+                            'students' : { student: req.query.studentId, isCompleted: true }
+                        }
+                    },{ new: true }) 
+                }
+            })
+    } else { 
+        return Lecture.findOne({ 'students.student': req.query.studentId, user: req.token.user })
+            .then((lecture) => {
+                if(lecture) {
+                    return Promise.reject("Completed")
+                } else {
+                    return Lecture.findByIdAndUpdate(req.params.id, {
+                        $push: {
+                            'students' : { student: req.query.studentId, isCompleted: true }
+                        }
+                    },{ new: true }) 
+                }
+            })
+    }
+}
+
 const Lecture = mongoose.model('Lecture', lectureSchema)
 
 module.exports = Lecture

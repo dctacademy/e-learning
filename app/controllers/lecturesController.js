@@ -2,7 +2,7 @@ const Lecture = require('../models/lecture')
 const lecturesController = {}
 
 lecturesController.list = (req, res) => {
-    Lecture.find({course: req.params.courseId, user: req.token._id })
+    Lecture.find({course: req.params.courseId })
         .then((lectures) => {
             res.json(lectures)
         })
@@ -79,17 +79,41 @@ lecturesController.comment = (req, res) => {
 }
 lecturesController.uncomment = (req, res) => {
     const id = req.params.id
-    Lecture.findByIdAndUpdate({ _id: id,user: req.token._id }, {
-        $pull: {
-            'comments' : { student : req.token._id, _id: req.params.commentId }// check the query
-        }
-    },{ new: true })
+    if(req.token.role === 'admin' || req.token.role === 'moderator'){
+        Lecture.findByIdAndUpdate({ _id: id }, {
+            $pull: {
+                'comments' : { _id: req.params.commentId }
+            }
+        },{ new: true })
+            .then((lecture) => {
+                res.json(lecture)
+            })
+            .catch((err) => {
+                res.json(err)
+            })
+    }else{
+        Lecture.findByIdAndUpdate({ _id: id }, {
+            $pull: {
+                'comments' : { student : req.token._id, _id: req.params.commentId }
+            }
+        },{ new: true })
+            .then((lecture) => {
+                res.json(lecture)
+            })
+            .catch((err) => {
+                res.json(err)
+            })
+    }
+    
+}
+lecturesController.markAsComplete = (req, res) => {
+    Lecture.markAsComplete(req) 
         .then((lecture) => {
             res.json(lecture)
         })
         .catch((err) => {
-            res.json(err)
-        })
+            res.json(err) 
+        }) 
 }
 
 module.exports = lecturesController

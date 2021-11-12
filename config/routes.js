@@ -22,7 +22,7 @@ router.put('/students/:id', authenticateUser, authorizeUser,  studentsController
 router.delete('/students/:id', authenticateUser, authorizeUser,  studentsController.destroy)
 
 router.get('/courses', authenticateUser, authorizeUser, coursesController.list)
-router.get('/mycourses', authenticateUser, authorizeUser, coursesController.mycourses)
+router.get('/courses/enrolled', authenticateUser, authorizeUser, coursesController.enrolled)
 router.post('/courses', authenticateUser, authorizeUser,  coursesController.create)
 router.get('/courses/:id', authenticateUser, authorizeUser, coursesController.show)
 router.put('/courses/:id', authenticateUser, authorizeUser, coursesController.update)
@@ -37,4 +37,5 @@ router.put('/courses/:courseId/lectures/:id', authenticateUser, authorizeUser,  
 router.delete('/courses/:courseId/lectures/:id', authenticateUser,authorizeUser, lecturesController.destroy)
 router.patch('/lectures/:id/comment', authenticateUser,authorizeUser, lecturesController.comment)
 router.patch('/lectures/:id/uncomment/:commentId', authenticateUser,authorizeUser, lecturesController.uncomment)
+router.patch('/lectures/:id/markAsComplete', authenticateUser,authorizeUser, lecturesController.markAsComplete)
 module.exports = router

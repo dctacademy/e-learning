@@ -16,7 +16,7 @@ coursesController.list = (req, res) => {
             res.json(err)
         })
 }
-coursesController.mycourses = (req, res) => {
+coursesController.enrolled = (req, res) => {
     Course.find({'students.student' : req.token._id})
         .then((courses) => {
             res.json(courses)
