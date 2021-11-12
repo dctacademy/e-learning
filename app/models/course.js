@@ -70,14 +70,14 @@ const courseSchema = new Schema({
 
 }, { timestamps: true })
 
-courseSchema.statics.findAllByRole = function(req){
-    const Course = this 
-    if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.find({user: req.token._id})
-    } else {
-        return Course.find({ user : req.token.user })
-    }
-}
+// courseSchema.statics.findAllByRole = function(req){
+//     const Course = this 
+//     if(req.token.role == 'admin' || req.token.role == 'moderator') {
+//         return Course.find({user: req.token._id})
+//     } else {
+//         return Course.find({ user : req.token.user })
+//     }
+// }
 
 courseSchema.statics.findOneByRole = function(req){
     const Course = this 
@@ -88,16 +88,16 @@ courseSchema.statics.findOneByRole = function(req){
     }
 }   
 
-courseSchema.statics.findByIdAndUpdateByRole = function(req){
-    const id = req.params.id 
-    const body = req.body 
-    const Course = this 
-    if(req.token.role? 'admin' : 'moderator') { 
-        return Course.findOneAndUpdate({ _id: id, user: req.token._id }, body, { new: true, runValidators: true })
-    } else {
-        return Course.findOneAndUpdate({ _id: id, 'students.student': req.token._id, user: req.token.user}, body, { new: true, runValidators: true })
-    }
-}
+// courseSchema.statics.findByIdAndUpdateByRole = function(req){
+//     const id = req.params.id 
+//     const body = req.body 
+//     const Course = this 
+//     if(req.token.role? 'admin' : 'moderator') { 
+//         return Course.findOneAndUpdate({ _id: id, user: req.token._id }, body, { new: true, runValidators: true })
+//     } else {
+//         return Course.findOneAndUpdate({ _id: id, 'students.student': req.token._id, user: req.token.user}, body, { new: true, runValidators: true })
+//     }
+// }
 
 courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
     const Course = this 

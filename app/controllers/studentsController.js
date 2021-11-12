@@ -1,6 +1,7 @@
 const Student = require('../models/student')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const _ = require("lodash")
 const studentsController = {}
 
 
@@ -64,10 +65,11 @@ studentsController.list = (req, res) => {
 
 studentsController.show = (req, res) => {
     const id = req.params.id
-    Student.findOne({ _id: id,user: req.token._id })
+    if(req.params.id == req.token._id || req.token.role == 'admin' || req.token.role == 'moderator'){
+    Student.findOne({ _id: id })
         .then((student) => {
             if (student) {
-                res.json(student)
+                res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
             } else {
                 res.json({})
             }
@@ -75,6 +77,9 @@ studentsController.show = (req, res) => {
         .catch((err) => {
             res.json(err)
         })
+    }else{
+        res.json("Not allowed to update")
+    }
 }
 
 studentsController.create = (req, res) => {
@@ -94,20 +99,25 @@ studentsController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
     delete body.password
-    Student.findOneAndUpdate({ _id: id,user: req.token._id }, body, { new: true, runValidators: true })
-        .then((student) => {
-            res.json(student)
-        })
-        .catch((err) => {
-            res.json(err)
-        })
+    delete body.role
+    if(req.params.id == req.token._id || req.token.role == 'admin' || req.token.role == 'moderator'){
+        Student.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
+            .then((student) => {
+                res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
+            })
+            .catch((err) => {
+                res.json(err)
+            })
+    }else{
+         res.json("Not allowed to update")
+    }
 }
 
 studentsController.destroy = (req, res) => {
     const id = req.params.id
     Student.findOneAndDelete({ _id: id,user: req.token._id })
         .then((student) => {
-            res.json(student)
+            res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
         })
         .catch((err) => {
             res.json(err)

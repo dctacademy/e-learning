@@ -11,7 +11,7 @@ router.post('/admin/register', usersController.register)
 router.post('/admin/login', usersController.login)
 router.get('/admin/users',authenticateUser, usersController.list)
 router.get('/admin/account', authenticateUser, usersController.account)
-router.put('/admin/:id', authenticateUser, usersController.update)
+router.put('/admin/update', authenticateUser, usersController.update)
 
 router.post('/admin/students/register', authenticateUser, authorizeUser, studentsController.register)
 router.post('/students/login', studentsController.login)
@@ -22,6 +22,7 @@ router.put('/students/:id', authenticateUser, authorizeUser,  studentsController
 router.delete('/students/:id', authenticateUser, authorizeUser,  studentsController.destroy)
 
 router.get('/courses', authenticateUser, authorizeUser, coursesController.list)
+router.get('/mycourses', authenticateUser, authorizeUser, coursesController.mycourses)
 router.post('/courses', authenticateUser, authorizeUser,  coursesController.create)
 router.get('/courses/:id', authenticateUser, authorizeUser, coursesController.show)
 router.put('/courses/:id', authenticateUser, authorizeUser, coursesController.update)
