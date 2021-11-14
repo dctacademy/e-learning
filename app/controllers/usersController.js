@@ -6,19 +6,28 @@ const usersController = {}
 
 usersController.register = (req, res) => {
     const body = req.body 
-    const user = new User(body)
+    const userObj = new User(body)
     const { academy } = body 
     if(!academy.name.trim()) {
         res.json({ 
             errors: 'academy name is required'
         })
     } else {
-        user.saveAdmin()
+        User.findOne({ 'academy.name' : academy.name })
             .then((user) => {
-                res.json(user)
+                if(!user) {
+                    return userObj.save()
+                } else {
+                    res.json({ errors: 'admin for this academy is already created' })
+                }
+            })
+            .then((user) => {
+                res.json({
+                    notice: `Successfully created admin for ${user.academy.name}`
+                })
             })
             .catch((err) => {
-                res.json(err)
+                res.json(err) 
             })
     }
 }
