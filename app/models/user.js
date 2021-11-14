@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcryptjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const isEmail = require('validator/lib/isEmail')
 const uniqueValidator = require('mongoose-unique-validator');
 const { v4: uuidv4 } = require('uuid')
@@ -69,6 +70,26 @@ userSchema.pre('save', function(next){
                         })
             })
 })
+
+userSchema.methods.generateToken = function(password){
+    const user = this
+    return bcryptjs.compare(password, user.password)
+        .then((match) => {
+            if (match) {
+                const tokenData = {
+                    _id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    academyId: user.academy.academyId
+                }
+                const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d' })
+                return Promise.resolve({ token })
+            } else {
+                return Promise.reject({ errors: 'invalid email or password' })
+            }
+        })
+}
 
 userSchema.plugin(uniqueValidator)
 
