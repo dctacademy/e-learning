@@ -66,7 +66,7 @@ studentsController.list = (req, res) => {
 studentsController.show = (req, res) => {
     const id = req.params.id
     if(req.params.id == req.token._id || req.token.role == 'admin' || req.token.role == 'moderator'){
-    Student.findOne({ _id: id })
+    Student.findOne({ _id: id, user: req.token.user || req.token._id })
         .then((student) => {
             if (student) {
                 res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
@@ -78,7 +78,7 @@ studentsController.show = (req, res) => {
             res.json(err)
         })
     }else{
-        res.json("Not allowed to update")
+        res.json("Not allowed to show")
     }
 }
 
@@ -101,7 +101,7 @@ studentsController.update = (req, res) => {
     delete body.password
     delete body.role
     if(req.params.id == req.token._id || req.token.role == 'admin' || req.token.role == 'moderator'){
-        Student.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
+        Student.findOneAndUpdate({ _id: id, user: req.token.user || req.token._id }, body, { new: true, runValidators: true })
             .then((student) => {
                 res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
             })
