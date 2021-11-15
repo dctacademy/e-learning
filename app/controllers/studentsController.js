@@ -5,18 +5,30 @@ const _ = require("lodash")
 const studentsController = {}
 
 
-studentsController.register = (req, res) => {
+studentsController.create = (req, res) => {
     const body = req.body 
-    const student = new Student(body)
-    student.user =  req.token._id
-    student.academyId = req.token.academyId
-    student.save()
+    const studentObj = new Student(body)
+    // console.log(student, req.token)
+    Student.findOne({ email: studentObj.email, user: req.token._id })
         .then((student) => {
-            res.json(student)
+            if(!student) {
+                studentObj.user = req.token._id
+                studentObj.academyId = req.token.academyId
+                studentObj.save()
+                    .then((student) => {
+                        res.json(_.pick(student, ['_id', 'name', 'email', 'isAllowed', 'courses', 'user', 'createdAt', 'updatedAt', 'role']))
+                    })
+                    .catch((err) => {
+                        res.json(err)
+                    })
+            } else {
+                res.json({ errors: "this student email already present"})
+            }
         })
-        .catch((err) =>{ 
+        .catch((err) => {
             res.json(err)
         })
+    
 }
 
 studentsController.login = (req, res,next) => {
@@ -64,31 +76,13 @@ studentsController.list = (req, res) => {
 }
 
 studentsController.show = (req, res) => {
-    const id = req.params.id
-    if(req.params.id == req.token._id || req.token.role == 'admin' || req.token.role == 'moderator'){
-    Student.findOne({ _id: id })
+    Student.findByRole(req)
         .then((student) => {
             if (student) {
-                res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
+                res.json(_.pick(student, ['_id', 'name', 'role', 'email', 'courses', 'isAllowed', 'user']))
             } else {
                 res.json({})
             }
-        })
-        .catch((err) => {
-            res.json(err)
-        })
-    }else{
-        res.json("Not allowed to update")
-    }
-}
-
-studentsController.create = (req, res) => {
-    const body = req.body
-    const student = new Student(body)
-    student.user = req.token._id
-    student.save()
-        .then((student) => {
-            res.json(student)
         })
         .catch((err) => {
             res.json(err)

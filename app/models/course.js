@@ -15,10 +15,6 @@ const courseSchema = new Schema({
             type: Number,
             required: [true, 'duration is required in months']
     },
-    releaseDate: {
-        type: Date,
-        default: Date.now
-    },
     category: {
                 type: String,
                 enum: ['HTML', 'CSS', 'javascript', 'reactjs', 'nodejs','expressjs', 'mongodb'],

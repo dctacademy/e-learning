@@ -9,7 +9,7 @@ const authenticateUser = (req, res, next) => {
         req.token = tokenData 
         next()
     } catch(e) {
-        res.status(401).json(e.message)
+        res.status(401).json({ errors: e.message})
     }
 }
 

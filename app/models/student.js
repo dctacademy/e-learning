@@ -8,12 +8,10 @@ const studentSchema = new Schema({
         required: [true, 'name is required'], 
         minlength: [4, 'name must be minimum 4 characters long'],
         maxlength: [64, 'name should not be more than 64 characters long'],
-        unique: true
     },
     email: {
         type: String,
         required: [true, 'email is required'],
-        unique: true, 
         validate: {
             validator: function(value){
                 return isEmail(value)
@@ -39,14 +37,17 @@ const studentSchema = new Schema({
     ],
     isAllowed: {
         type: Boolean,
+        required: true, 
         default: true
     },
     role: {
         type: String,
+        required: true, 
         default: 'student'
     },
     user: {
         type: Schema.Types.ObjectId, 
+        required: true, 
         ref: 'User'
     }
 }, { timestamps: true })
@@ -63,6 +64,17 @@ studentSchema.pre('save', function(next){
                 })
         })  
 })
+
+studentSchema.statics.findByRole = function(req){
+    const Student = this 
+    const id = req.params.id 
+    if(req.token.role === 'admin') {
+        return Student.findOne({ _id: id, user: req.token._id})
+    } else {
+        return Student.findById({ _id: req.token._id, user: req.token.user })
+    }
+}
+
 
 const Student = mongoose.model('Student', studentSchema)
 
