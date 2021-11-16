@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router() 
-const { authenticateUser, authorizeUser } = require('../app/middlewares/authentication')
+const { authenticateUser, authorizeUser, authorizeResource } = require('../app/middlewares/authentication')
 const usersController = require('../app/controllers/usersController')
 const studentsController = require('../app/controllers/studentsController')
 const coursesController = require('../app/controllers/coursesController')
@@ -14,8 +14,9 @@ router.get('/admin/account', authenticateUser, usersController.account)
 router.put('/admin/update', authenticateUser, usersController.update)
 
 router.post('/admin/students', authenticateUser, authorizeUser, studentsController.create)
-router.get('/admin/students', authenticateUser, authorizeUser, studentsController.list)
+router.get('/admin/students', authenticateUser, authorizeUser, authorizeResource, studentsController.list)
 router.delete('/admin/students/:id', authenticateUser, authorizeUser, studentsController.destroy)
+
 router.post('/students/login', studentsController.login)
 router.get('/students/:id',authenticateUser, authorizeUser,  studentsController.show)
 router.put('/students/:id', authenticateUser, authorizeUser,  studentsController.update)

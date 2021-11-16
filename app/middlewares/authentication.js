@@ -64,6 +64,16 @@ const authorizeUser = ( req, res, next) => {
     }    
 }
 
+const authorizeResource = (req, res, next) => {
+    if(req.token.role === 'admin') {
+        next() 
+    } else {
+        res.json({
+            errors: "You are not authorized to access this page"
+        })
+    }
+}
+
 
 module.exports = {
     authenticateUser, authorizeUser
