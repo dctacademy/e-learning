@@ -86,6 +86,9 @@ studentsController.show = (req, res) => {
         .catch((err) => {
             res.json(err)
         })
+    }else{
+        res.json("Not allowed to show")
+    }
 }
 
 studentsController.update = (req, res) => {
@@ -97,7 +100,23 @@ studentsController.update = (req, res) => {
             res.json(err)
         })
 }
-
+studentsController.update = (req, res) => {
+    const id = req.params.id
+    const body = req.body
+    delete body.password
+    delete body.role
+    if(req.params.id == req.token._id || req.token.role == 'admin' || req.token.role == 'moderator'){
+        Student.findOneAndUpdate({ _id: id, user: req.token.user || req.token._id }, body, { new: true, runValidators: true })
+            .then((student) => {
+                res.json(_.pick(student, ['_id','name', 'role', 'email','courses','isAllowed','user']))
+            })
+            .catch((err) => {
+                res.json(err)
+            })
+    }else{
+         res.json("Not allowed to update")
+    }
+}
 studentsController.destroy = (req, res) => {
     const id = req.params.id
     Student.findOneAndDelete({ _id: id,user: req.token._id })

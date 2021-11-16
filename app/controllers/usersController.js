@@ -58,7 +58,7 @@ usersController.update = (req, res) => {
    
     User.findOneAndUpdate({ _id: id }, body, { new: true, runValidators: true })
         .then((user) => {
-            res.json(_.pick(user, ['username', 'email','academy']))
+            res.json(_.pick(user, ['_id', 'username', 'email','academy']))
         })
         .catch((err) => {
             res.json(err)
@@ -80,7 +80,7 @@ usersController.account = (req, res) => {
             if(!user) {
                 res.json({})
             } else {
-               res.json(_.pick(user, ['username', 'role', 'email','academy']))
+               res.json(_.pick(user, ['_id','username', 'role', 'email','academy']))
             }
         })
         .catch((err) => {
