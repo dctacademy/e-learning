@@ -26,10 +26,12 @@ The modules are as follows
 ### User Resource
 | # | action | method | url | request | response | auth (headers) | Role |
 | ---- |-----|-------|--------|---------|------| ------|------|
-| 1. | register a user (admin) | POST | /admin/register | <ul> <li> username*  </li> <li> email*  </li> <li> password*  </li><li>academy <ul><li> name*  </li> <li> website  </li> </ul></li></ul>  |  <ul> <li> _id </li> <li> username </li> <li> email </li>  <li> password </li>  <li> role (default first user is admin) </li><li>academy <ul><li> _id </li><li> name  </li> <li> website  </li> </ul></li> <li> createdAt</li> <li> updatedAt </li> </ul> | no | no|
+| 1. | register a user (admin) | POST | /admin/register | <ul> <li> username*  </li> <li> email*  </li> <li> password*  </li><li>academy <ul><li> name*  </li> <li> website  </li> </ul></li></ul>  | { "notice": "Successfully created admin for dct Academy" } / {
+    "errors": "admin for this academy is already created"
+} | no | no|
 | 2. | login a user (admin) | POST | /admin/login | <ul> <li> email*  </li> <li> password*  </li> </ul>  |  <ul> <li> token </li> </ul> | no | no|
-| 3. | get user info | GET | /admin/account | -  |  <ul> <li> _id </li> <li> email </li><li> username </li><li> role </li><li> password </li><li> academy <ul><li>name</li><li>website</li></ul></li> </ul> | `{ Authorization : <token>}` | admin |
-|4.| update user info | PUT | /admin |<ul> <li> email </li><li> username </li><li>academy<ul><li> name </li><li> website </li></ul> </li></ul> |<ul> <li> _id </li><li> email </li><li> username </li><li> role </li><li> academy <ul><li>name</li><li>website</li></ul></li> </ul> |  | `{ Authorization : <token>}` | admin |
+| 3. | get user info | GET | /admin/account | -  |  <ul> <li> _id </li> <li> email </li><li> username </li><li> role </li><li> password </li><li> academy <ul><li>academyId</li><li>name</li><li>website</li></ul></li> </ul> | `{ Authorization : <token>}` | admin |
+|4.| update user info | PUT | /admin |<ul> <li> email </li><li> username </li><li>academy<ul><li> name </li><li> website </li></ul> </li></ul> |<ul> <li> _id </li><li> email </li><li> username </li><li> role </li><li> academy <ul><li>academyId</li><li>name</li><li>website</li></ul></li> </ul> |  | `{ Authorization : <token>}` | admin |
 ---
 ***note - * indicates a required field***
 ---
