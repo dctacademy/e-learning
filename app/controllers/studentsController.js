@@ -86,9 +86,6 @@ studentsController.show = (req, res) => {
         .catch((err) => {
             res.json(err)
         })
-    }else{
-        res.json("Not allowed to show")
-    }
 }
 
 studentsController.update = (req, res) => {
