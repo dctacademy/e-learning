@@ -76,5 +76,5 @@ const authorizeResource = (req, res, next) => {
 
 
 module.exports = {
-    authenticateUser, authorizeUser
+    authenticateUser, authorizeUser, authorizeResource
 }
