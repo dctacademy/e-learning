@@ -75,6 +75,19 @@ studentSchema.statics.findByRole = function(req){
     }
 }
 
+studentSchema.statics.findAndUpdateByRole = function(req){
+    const Student = this 
+    const id = req.params.id
+    const body = req.body
+    delete body.password
+    delete body.role
+    if(req.token.role === 'admin') {
+        return Student.findOneAndUpdate({ _id: id, user: req.token._id }, body,  { new: true, runValidators: true })
+    } else {
+        return Student.findOneAndUpdate({ _id: id, user: req.token.user }, body, { new: true, runValidators: true })
+    }
+}
+
 
 const Student = mongoose.model('Student', studentSchema)
 

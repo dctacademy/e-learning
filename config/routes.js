@@ -15,10 +15,10 @@ router.put('/admin/update', authenticateUser, usersController.update)
 
 router.post('/admin/students', authenticateUser, authorizeUser, studentsController.create)
 router.get('/admin/students', authenticateUser, authorizeUser, studentsController.list)
+router.delete('/admin/students/:id', authenticateUser, authorizeUser, studentsController.destroy)
 router.post('/students/login', studentsController.login)
 router.get('/students/:id',authenticateUser, authorizeUser,  studentsController.show)
 router.put('/students/:id', authenticateUser, authorizeUser,  studentsController.update)
-router.delete('/students/:id', authenticateUser, authorizeUser,  studentsController.destroy)
 
 router.get('/courses', authenticateUser, authorizeUser, coursesController.list)
 router.get('/courses/enrolled', authenticateUser, authorizeUser, coursesController.enrolled)
