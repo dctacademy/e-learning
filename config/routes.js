@@ -36,5 +36,5 @@ router.put('/courses/:courseId/lectures/:id', authenticateUser, authorizeUser,  
 router.delete('/courses/:courseId/lectures/:id', authenticateUser,authorizeUser, lecturesController.destroy)
 router.patch('/lectures/:id/comment', authenticateUser,authorizeUser, lecturesController.comment)
 router.patch('/lectures/:id/uncomment/:commentId', authenticateUser,authorizeUser, lecturesController.uncomment)
-router.patch('/lectures/:id/markAsComplete', authenticateUser,authorizeUser, lecturesController.markAsComplete)
+router.patch('/lectures/:id/complete', authenticateUser,authorizeUser, lecturesController.markAsComplete)
 module.exports = router
