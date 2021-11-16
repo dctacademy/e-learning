@@ -1,24 +1,31 @@
 const User = require('../models/user')
-const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const _ = require("lodash")
 const usersController = {}
 
 usersController.register = (req, res) => {
     const body = req.body 
-    const user = new User(body)
+    const userObj = new User(body)
     const { academy } = body 
     if(!academy.name.trim()) {
         res.json({ 
             errors: 'academy name is required'
         })
     } else {
-        user.saveAdmin()
+        User.findOne({ 'academy.name' : academy.name })
             .then((user) => {
-                res.json(user)
+                if(!user) {
+                    return userObj.save()
+                } else {
+                    res.json({ errors: 'admin for this academy is already created' })
+                }
+            })
+            .then((user) => {
+                res.json({
+                    notice: `Successfully created admin for ${user.academy.name}`
+                })
             })
             .catch((err) => {
-                res.json(err)
+                res.json(err) 
             })
     }
 }
@@ -31,28 +38,18 @@ usersController.login = (req, res) => {
                 res.json({ 
                     errors: 'invalid email or password'
                 })
+            } else {
+                return user.generateToken(body.password)
             }
-
-            bcryptjs.compare(body.password, user.password)
-                .then((match) => {
-                    if(match) {
-                        const tokenData = {
-                            _id: user._id,
-                            email: user.email,
-                            username: user.username,
-                            role: user.role,
-                            academyId: user.academy._id
-                        }
-                        const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
-                        res.json({
-                            token: `${token}`
-                        })
-                    } else {
-                        res.json({ errors: 'invalid email or password'})
-                    }
-                })
+        })
+        .then((token) => {
+            res.json(token)
+        })
+        .catch((err) => {
+            res.json(err) 
         })
 }
+
 usersController.update = (req, res) => {
     const id = req.token._id
     const body = req.body
