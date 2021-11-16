@@ -3,15 +3,17 @@
 ###### This is backened app built with technnologies: NodeJS, ExpressJS and MongoDB.
 ###### other tools: Postman, REST APIs.
 ###### Packages: 
-```javascript "bcryptjs": "^2.4.3",
+```javascript 
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^6.0.12",
+    "mongoose-unique-validator": "^3.0.0",
     "nodemon": "^2.0.14",
-    "validator": "^13.6.0"
+    "uuid": "^8.3.2",
+    "validator": "^13.6.0""
  ```
 
 The modules are as follows
