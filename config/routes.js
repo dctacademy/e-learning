@@ -11,7 +11,7 @@ router.post('/admin/register', usersController.register)
 router.post('/admin/login', usersController.login)
 // router.get('/admin/users',authenticateUser, usersController.list)
 router.get('/admin/account', authenticateUser, usersController.account)
-router.put('/admin/update', authenticateUser, usersController.update)
+router.put('/admin', authenticateUser, usersController.update)
 
 router.post('/admin/students', authenticateUser, authorizeUser, studentsController.create)
 router.get('/admin/students', authenticateUser, authorizeUser, authorizeResource, studentsController.list)

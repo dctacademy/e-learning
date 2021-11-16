@@ -7,6 +7,7 @@ const studentsController = {}
 
 studentsController.create = (req, res) => {
     const body = req.body 
+    delete body.courses
     const studentObj = new Student(body)
     Student.findOne({ email: studentObj.email, user: req.token._id })
         .then((student) => {
