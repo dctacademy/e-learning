@@ -81,6 +81,7 @@ studentSchema.statics.findAndUpdateByRole = function(req){
     const body = req.body
     delete body.password
     delete body.role
+    delete body.courses
     if(req.token.role === 'admin') {
         return Student.findOneAndUpdate({ _id: id, user: req.token._id }, body,  { new: true, runValidators: true })
     } else {
