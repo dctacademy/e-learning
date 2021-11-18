@@ -2,13 +2,7 @@ const Course = require('../models/course')
 const coursesController = {}
 
 coursesController.list = (req, res) => {
-    let adminId
-    if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        adminId = req.token._id
-    } else {
-        adminId = req.token.user
-    }
-    Course.find({user: adminId})
+    Course.findAllByRole(req)
         .then((courses) => {
             res.json(courses)
         })
@@ -56,9 +50,13 @@ coursesController.create = (req, res) => {
 coursesController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
-    Course.findByIdAndUpdate({ _id: id, user: req.token._id }, body, { new: true, runValidators: true })
+    Course.findOneAndUpdate({ _id: id, user: req.token._id }, body, { new: true, runValidators: true })
         .then((course) => {
-            res.json(course)
+            if(!course){
+                res.json({})
+            }else{
+                res.json(course)
+            }
         })
         .catch((err) => {
             res.json(err)

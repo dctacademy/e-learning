@@ -2,7 +2,7 @@ const Lecture = require('../models/lecture')
 const lecturesController = {}
 
 lecturesController.list = (req, res) => {
-    Lecture.find({course: req.params.courseId })
+    Lecture.find({course: req.params.id })
         .then((lectures) => {
             res.json(lectures)
         })
@@ -13,7 +13,7 @@ lecturesController.list = (req, res) => {
 
 lecturesController.show = (req, res) => {
     const id = req.params.id
-    Lecture.findOne({ _id: id,user: req.token._id })
+    Lecture.findOne({ _id: id,user: req.token.user || req.token._id  })
         .then((lecture) => {
             if (lecture) {
                 res.json(lecture)
@@ -28,8 +28,10 @@ lecturesController.show = (req, res) => {
 
 lecturesController.create = (req, res) => {
     const body = req.body
+    delete body.students
+    delete body.comments
     const lecture = new Lecture(body)
-    lecture.course = req.params.courseId
+    lecture.course = req.params.id
     lecture.user = req.token._id
     lecture.save()
         .then((lecture) => {
@@ -43,6 +45,8 @@ lecturesController.create = (req, res) => {
 lecturesController.update = (req, res) => {
     const id = req.params.id
     const body = req.body
+    delete body.students
+    delete body.comments
     Lecture.findOneAndUpdate({ _id: id,user: req.token._id }, body, { new: true, runValidators: true })
         .then((lecture) => {
             res.json(lecture)
@@ -65,7 +69,7 @@ lecturesController.destroy = (req, res) => {
 
 lecturesController.comment = (req, res) => {
     const id = req.params.id
-    Lecture.findByIdAndUpdate({ _id: id, user: req.token._id }, {
+    Lecture.findByIdAndUpdate({ _id: id, user: req.token.user }, {
         $push: {
             'comments' : { student : req.token._id,body: req.body.body}
         }

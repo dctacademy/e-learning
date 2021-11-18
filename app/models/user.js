@@ -63,11 +63,11 @@ userSchema.pre('save', function(next){
     const user = this 
     return bcryptjs.genSalt()
             .then((salt) => {
-                return bcryptjs.hash(user.password, salt)
-                        .then((encrypted) => {
-                            user.password = encrypted
-                            next()
-                        })
+               return bcryptjs.hash(user.password, salt)
+                    .then((encrypted) => {
+                        user.password = encrypted
+                        next()
+                    })
             })
 })
 

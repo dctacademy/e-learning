@@ -11,18 +11,20 @@ usersController.register = (req, res) => {
             errors: 'academy name is required'
         })
     } else {
-        User.findOne({ 'academy.name' : academy.name })
+        User.findOne({ 'academy.name' : academy.name, email: userObj.email })
             .then((user) => {
-                if(!user) {
-                    return userObj.save()
-                } else {
+                if(user) {
                     res.json({ errors: 'admin for this academy is already created' })
+                } else {
+                    userObj.save()
+                    .then((user) => {
+                        res.status(201).json({
+                            notice: `Successfully created admin for ${user.academy.name}`
+                        })
+                    }).catch(err => {
+                        res.status(406).json({notice: "try with different email"})
+                    })
                 }
-            })
-            .then((user) => {
-                res.json({
-                    notice: `Successfully created admin for ${user.academy.name}`
-                })
             })
             .catch((err) => {
                 res.json(err) 
