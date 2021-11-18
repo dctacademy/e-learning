@@ -66,21 +66,22 @@ const courseSchema = new Schema({
 
 }, { timestamps: true })
 
-// courseSchema.statics.findAllByRole = function(req){
-//     const Course = this 
-//     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-//         return Course.find({user: req.token._id})
-//     } else {
-//         return Course.find({ user : req.token.user })
-//     }
-// }
+courseSchema.statics.findAllByRole = function(req){
+    const Course = this 
+    if(req.token.role == 'admin' || req.token.role == 'moderator') {
+        return Course.find({user: req.token._id})
+    } else {
+        return Course.find({ user : req.token.user })
+    }
+}
 
 courseSchema.statics.findOneByRole = function(req){
     const Course = this 
-    if(req.token.role ? 'admin' : 'moderator') {
+
+    if(req.token.role == 'admin' || req.token.role == 'moderator') {
         return Course.findOne({ _id: req.params.id, user: req.token._id })
     } else { 
-        return Course.findOne({ 'students.student': req.token._id, _id: req.params.id, user: req.token.user})// check
+        return Course.findOne({  _id: req.params.id, user: req.token.user})// check
     }
 }   
 

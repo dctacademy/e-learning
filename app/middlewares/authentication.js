@@ -68,7 +68,7 @@ const authorizeResource = (req, res, next) => {
     if(req.token.role === 'admin') {
         next() 
     } else {
-        res.json({
+        res.status(401).json({
             errors: "You are not authorized to access this page"
         })
     }

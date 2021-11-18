@@ -30,12 +30,12 @@ router.delete('/courses/:id', authenticateUser, authorizeUser,  coursesControlle
 router.patch('/courses/enroll', authenticateUser, authorizeUser, coursesController.enroll )
 router.patch('/courses/unenroll', authenticateUser, authorizeUser, coursesController.unenroll )
 
-router.get('/courses/:courseId/lectures', authenticateUser, authorizeUser,  lecturesController.list)
-router.post('/courses/:courseId/lectures', authenticateUser, authorizeUser,  lecturesController.create)
+router.get('/courses/:id/lectures', authenticateUser, authorizeUser,  lecturesController.list)
+router.post('/courses/:id/lectures', authenticateUser, authorizeUser,  lecturesController.create)
 router.get('/courses/:courseId/lectures/:id', authenticateUser, authorizeUser, lecturesController.show)
 router.put('/courses/:courseId/lectures/:id', authenticateUser, authorizeUser,  lecturesController.update)
 router.delete('/courses/:courseId/lectures/:id', authenticateUser,authorizeUser, lecturesController.destroy)
 router.patch('/lectures/:id/comment', authenticateUser,authorizeUser, lecturesController.comment)
 router.patch('/lectures/:id/uncomment/:commentId', authenticateUser,authorizeUser, lecturesController.uncomment)
-router.patch('/lectures/:id/complete', authenticateUser,authorizeUser, lecturesController.markAsComplete)
+// router.patch('/lectures/:id/complete', authenticateUser,authorizeUser, lecturesController.markAsComplete)
 module.exports = router
