@@ -13,17 +13,18 @@ usersController.register = (req, res) => {
     } else {
         User.findOne({ 'academy.name' : academy.name })
             .then((user) => {
-                if(!user) {
+                if(user) {
+                    res.json({ errors: 'admin for this academy is already created' })
+                } else {
                     userObj.save()
                     .then((user) => {
                         res.status(201).json({
                             notice: `Successfully created admin for ${user.academy.name}`
                         })
                     })
-                } else {
-                    res.status(406).json({ errors: 'admin for this academy is already created' })
                 }
             })
+           
             .catch((err) => {
                 res.json(err) 
             })
