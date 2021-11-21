@@ -24,17 +24,16 @@
 | 3. | get a lecture info | GET | /course/:courseId/lectures/:id | -  | <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li> empty array / array of comments </li><li> empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 | 4. | update lecture info | PUT | /course/:courseId/lectures/:id | <ul>  <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li> </ul> |  <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  empty array / array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
 |5. | delete lecture | DELETE | /course/:courseId/lectures/:id |-| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  empty array / array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | admin   |
-|6. |add comment to the lecture | PATCH | /lectures/:id/comments |<ul><li> body*  </li>  </ul>| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |
-|7. | delete comment of the lecture | PATCH | /lectures/:id/comments/:commentId |<ul><li> body*  </li>  </ul>| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |
-
+---
+### asset URL you can take it from YouTube
+### asset types - 'video', 'audio', 'text', 'pdf', 'img'
+***note - * indicates a required field***
+---
 
 ---
 ###### Next features are in process
 ---
-
+|6. |add comment to the lecture | PATCH | /lectures/:id/comments |<ul><li> body*  </li>  </ul>| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |
+|7. | delete comment of the lecture | PATCH | /lectures/:id/comments/:commentId |<ul><li> body*  </li>  </ul>| <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul> | `{ Authorization : <token>}` | student   |
 |8. | mark as complete by student | PATCH | /lectures/:id/complete?stuentId=< studentId > | - | <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul>  or "completed" | `{ Authorization : <token>}` | student   |
 |9. | mark as complete by admin | PATCH | /lectures/:id/complete?stuentId=< studentId > | - | <ul><li> _id  </li> <li> title  </li><li> description  </li><li> assetType  </li><li> assetURL </li><li>  array of comments </li><li>  empty array / array of students </li><li> course  </li><li> isDelete  </li><li> createdAt </li><li> updatedAt </li>  </ul>  or "completed" | `{ Authorization : <token>}` | student   |
----
-### asset types - 'video', 'audio', 'text', 'pdf', 'img'
-***note - * indicates a required field***
----

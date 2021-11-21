@@ -99,7 +99,7 @@ courseSchema.statics.findOneByRole = function(req){
 courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
     const Course = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id })
+        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id,_id: req.query.courseId })
             .then((course) => {
                 if(course) {
                     return Promise.reject("Already enrolled")
@@ -116,7 +116,7 @@ courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
                 }
             })
     } else { 
-        return Course.findOne({ 'students.student': req.token._id, user: req.token.user })
+        return Course.findOne({ 'students.student': req.token._id, user: req.token.user ,_id: req.query.courseId })
             .then((course) => {
                 if(course) {
                     return Promise.reject("Already enrolled")
@@ -137,7 +137,7 @@ courseSchema.statics.findByIdAndEnrollByRole = function(req, res){
 courseSchema.statics.findByIdAndUnenroll = function(req, res){
     const Course = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id })
+        return Course.findOne({ 'students.student': req.query.studentId, user: req.token._id,_id: req.query.courseId  })
             .then((course) => {
                 if(!course) {
                     return Promise.reject("Already Unenrolled")
@@ -154,7 +154,7 @@ courseSchema.statics.findByIdAndUnenroll = function(req, res){
                 }
             })
     } else { 
-        return Course.findOne({ 'students.student': req.token._id, user: req.token.user })
+        return Course.findOne({ 'students.student': req.token._id, user: req.token.user ,_id: req.query.courseId })
             .then((course) => {
                 if(!course) {
                     return Promise.reject("Already Unenrolled")
