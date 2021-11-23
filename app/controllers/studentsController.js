@@ -16,7 +16,7 @@ studentsController.create = (req, res) => {
                 studentObj.academyId = req.token.academyId
                 studentObj.save()
                     .then((student) => {
-                        res.json(_.pick(student, ['_id', 'name', 'email', 'isAllowed', 'courses', 'user', 'createdAt', 'updatedAt', 'role']))
+                        res.json(_.pick(student, ['_id', 'name','password', 'email', 'isAllowed', 'courses', 'user', 'createdAt', 'updatedAt', 'role']))
                     })
                     .catch((err) => {
                         res.json(err)
