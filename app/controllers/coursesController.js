@@ -1,4 +1,5 @@
 const Course = require('../models/course')
+const Student = require('../models/student')
 const coursesController = {}
 
 coursesController.list = (req, res) => {
@@ -67,6 +68,13 @@ coursesController.destroy = (req, res) => {
     const id = req.params.id
     Course.findOneAndDelete({ _id: id,user: req.token._id })
         .then((course) => {
+            Student.updateMany({},{
+                $pull: {courses : {course: course._id }} })
+                .then(students => {
+                    console.log(students)
+                }).catch(err => {
+                    console.log(err)
+                })
             res.json(course)
         })
         .catch((err) => {

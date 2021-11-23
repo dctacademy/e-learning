@@ -43,7 +43,7 @@ The modules are as follows
 | 3. | get student information | GET | /students/:id | - |  <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> role </li><li> isAllowed </li><li> empty array / array of courses </li> <li> user</li> </ul> | `{ Authorization : <token>}` | admin | student  |
 | 4. | update student info | PUT | /students/:id | <ul> <li> name </li> <li> email </li><li> isAllowed (boolean) </li>   </ul>  | <ul> <li> _id </li> <li> name </li> <li> email </li> <li> role </li><li> isAllowed </li><li> empty array / array of courses </li> <li> user</li></ul>  | `{ Authorization : <token>}` | admin   |
 | 5. | get all students | GET | /admin/students | - | empty array / array of students | `{ Authorization : <token>}` | admin  |
-| 6. | delete student | DELETE | /admin/students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> password </li> <li> role </li><li> isAllowed </li><li> user </li><li> empty array / array of courses </li> </ul>  | `{ Authorization : <token>}` | admin   |
+| 6. | delete student | DELETE | /admin/students/:id | -  | <ul> <li> _id </li> <li> name </li> <li> email </li>  <li> role </li><li> isAllowed </li><li> user </li><li> empty array / array of courses </li> </ul>  | `{ Authorization : <token>}` | admin   |
 ---
 ***note - * indicates a required field***
 ---
