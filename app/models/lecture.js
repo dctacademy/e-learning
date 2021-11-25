@@ -76,7 +76,7 @@ const lectureSchema = new Schema({
 lectureSchema.statics.markAsComplete = function(req){
     const Lecture = this 
     if(req.token.role == 'admin' || req.token.role == 'moderator') {
-        return Lecture.findOne({ 'students.student': req.query.studentId, user: req.token._id })
+        return Lecture.findOne({ 'students.student': req.query.studentId, user: req.token._id, _id: req.params.id })
             .then((lecture) => {
                 if(lecture) {
                     return Promise.reject("Completed")
@@ -89,7 +89,7 @@ lectureSchema.statics.markAsComplete = function(req){
                 }
             })
     } else { 
-        return Lecture.findOne({ 'students.student': req.query.studentId, user: req.token.user })
+        return Lecture.findOne({ 'students.student': req.query.studentId, user: req.token.user,_id: req.params.id })
             .then((lecture) => {
                 if(lecture) {
                     return Promise.reject("Completed")
