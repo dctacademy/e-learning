@@ -22,7 +22,7 @@ studentsController.create = (req, res) => {
                         res.json(err)
                     })
             } else {
-                res.json({ errors: "this student email already present"})
+                res.json({ errors: "this email is already present"})
             }
         })
         .catch((err) => {
@@ -37,29 +37,30 @@ studentsController.login = (req, res,next) => {
     Student.findOne({ email: body.email }) 
         .then((student) => {
             if(!student) {
-                res.json({ 
+                res.send({ 
                     errors: 'invalid email or password'
                 })
+            }else{
+                return bcryptjs.compare(body.password, student.password)
+                    .then((match) => {
+                        if(match) {
+                            const tokenData = {
+                                _id: student._id,
+                                email: student.email,
+                                name: student.name,
+                                role: student.role,
+                                user: student.user
+                            }                        
+                            const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
+                            res.json({
+                                token: `${token}`
+                            })
+                        } else {
+                            res.json({ errors: 'invalid email or password'})
+                        }
+                    }).catch(err=>res.send("invalid"))
             }
 
-           return bcryptjs.compare(body.password, student.password)
-                .then((match) => {
-                    if(match) {
-                        const tokenData = {
-                            _id: student._id,
-                            email: student.email,
-                            name: student.name,
-                            role: student.role,
-                            user: student.user
-                        }                        
-                        const token = jwt.sign(tokenData, 'dct123', { expiresIn: '2d'})
-                        res.json({
-                            token: `${token}`
-                        })
-                    } else {
-                        res.json({ errors: 'invalid email or password'})
-                    }
-                }).catch(err=>res.send("invalid"))
         }).catch(err=>{
             res.json(err)
         })
