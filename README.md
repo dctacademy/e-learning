@@ -66,7 +66,7 @@ The modules are as follows
 ### Choose the courses - 'HTML', 'CSS', 'javascript', 'reactjs', 'nodejs','expressjs', 'mongodb'
 ### Choose the levels - 'beginner', 'intermediate', 'expert'
 ### Release Date format - YYYY-MM-DD
-### Validity and duration feilds - Number type in months (Ex: 6)
+### Validity and duration fields - Number type in months (Ex: 6)
 ***note - * indicates a required field***
 ---
 ### Lecture Resource
