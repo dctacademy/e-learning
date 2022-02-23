@@ -41,6 +41,10 @@ const courseSchema = new Schema({
 
         }
     ],
+    releaseDate: {
+        type: Date, 
+        default: Date.now
+    },
     validity: {
         type: Number, 
         default: 12,
