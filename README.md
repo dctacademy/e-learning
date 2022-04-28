@@ -23,7 +23,7 @@ The modules are as follows
 3. Course
 4. Lecture
 
-# API's base url - https://dct-e-learning-app.herokuapp.com/api
+## API's base url - https://dct-e-learning-app.herokuapp.com/api
 
 ### User Resource
 | # | action | method | url | request | response | auth (headers) | Role |
